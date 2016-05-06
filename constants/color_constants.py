@@ -1,0 +1,6 @@
+backColor = "Gray"
+entryColor = "Cyan"
+okColor = "Green"
+warnColor = "Red"
+inFocusColor = "Cyan"
+outFocusColor = "White"
