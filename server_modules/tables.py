@@ -25,3 +25,11 @@ TABLES ['response'] = (
     "  memory integer,"
     "  PRIMARY KEY (team_code,problem_code,submission_number)"
     ") ENGINE=InnoDB")
+
+
+TABLES ['servers'] = (
+    "CREATE TABLE servers ("
+    "  server_ip varchar(100) NOT NULL,"
+    "  server_port varchar(50) NOT NULL,"
+    "  PRIMARY KEY (server_ip)"
+    ") ENGINE=InnoDB")

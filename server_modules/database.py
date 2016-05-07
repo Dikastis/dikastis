@@ -47,8 +47,6 @@ except mysql.connector.Error as err:
 cursor = cnx.cursor()
 
 
-
-
 for name, ddl in TABLES.iteritems():
     try:
     	end=''
