@@ -1,6 +1,7 @@
 import socket
 from constants.network_constants import *
 from client_modules.client_file_selector_module import select
+import models
 from constants.color_constants import *
 import sys
 import tkMessageBox
@@ -8,22 +9,48 @@ import tkFont
 import ttk
 import ScrolledText
 import thread
+import pickle
 
 sol_data = ''
 problem_selected = ''
 
-'''loading list of questions'''
-# soc = socket.socket()
-# soc.connect(('',PORT))
-# soc.send('10') # 10 refres to client type 
-# response = soc.recv(100)
 
-# if response == "100": # response 100 means server ready to recv client id and password
-#     pass
-# else:
-#     #tkmessage box for error
-#     #handle for retrying
-#     pass
+
+soc = socket.socket()
+soc.connect(('192.168.0.103',4448))
+soc.send('1000') # 10 refres to client type 
+response = soc.recv(1000)
+
+if response == "3001":
+    pass
+else:
+    #handle error
+    pass
+
+
+def reciever(soc):
+    #reciving 
+    data = soc.recv(10000)
+
+    #writing to file
+    f = open('notifications.txt','a+')
+    f.write(data + "\n")
+    f.close()
+
+    data = data.split(' ')
+    if data[0] == "broadcast":
+        tkMessageBox.showinfo( data[0], data[1] )
+        soc.send("3002")
+    elif data[0] == "result":
+        tkMessageBox.showinfo( data[0], data[1] )
+        soc.send("3002")
+    else:
+        soc.send("3002")
+
+    reciever(soc)
+
+
+
 
 try:
     # Python2
@@ -35,50 +62,90 @@ except ImportError:
 def start_cliet_reciever(ok):
     socRecveiver = socket.socket()
     print "thread working"
-    # socRecveiver.connect(('',PORT))
-    # socRecveiver.send('11') #11 refers to client reciever type
-    # response = soc.recv(100)
-    # if response == "101": # 101 refers ok
-    #     socRecveiver.send("102") # 102 refers ready to recieve data
-    #     pass
-    # else:
-    #     #handle error or show box
-    #     pass
+    socRecveiver.connect(('192.168.0.103',4448))
+    socRecveiver.send('1001') #11 refers to client reciever type
+    response = soc.recv(100)
+    if response == "3000": # 101 refers ok
+        socRecveiver.send("3001") # 102 refers ready to recieve data
 
-def start(ok):
+        thread.start_new_thread(reciever,(socRecveiver,))
+        pass
+    else:
+        #handle error or show box
+        pass
 
-    data = "asdfghjkljhgfd$cvkz$xdghjkjhcx$hjklkjhgf";
-    choices = data.split('$')
+def start():
+    soc.send('3001')
+    data = soc.recv(100000)
+    f = open('dd.b','w')
+    f.write(data)
+    f.close()
 
-    root = tk.Tk()
-    root.title("Dikastis Client")
+    problem_data = pickle.load(open('dd.b','rb'))
 
-    var = tk.StringVar(root)
-    # initial value
-    var.set('select problem')
-    option = tk.OptionMenu(root, var, *choices)
-    option.pack(pady = 1 , side='left')
-    button = tk.Button(root, text="browse file & submit", command=lambda: select(var,soc))
-    button.pack(side='left', padx=20, pady=1)
+    choices = []
 
-    labelText = tk.StringVar()
-    labelText.set('\n')
-    label1 = tk.Label(root, textvariable=labelText, height=10)
-    label1.pack()
+    for problem in problem_data:
+        choice = problem.problem_code + " -- " + problem.problem_name
+
+
+    root = Tk() # create a top-level window
+    master = Frame(root, name='master') # create Frame in "root"
+    master.pack(fill=BOTH) # fill both sides of the parent
+
+    root.title('EZ') # title for top-level window
+    # quit if the window is deleted
+    root.protocol("WM_DELETE_WINDOW", master.quit)
+
+    nb = Notebook(master, name='nb') # create Notebook in "master"
+    nb.pack(fill=BOTH, padx=2, pady=3) # fill "master" but pad sides
+
+    # create each Notebook tab in a Frame
+    master_foo = Frame(nb, name='master-foo')
+    Label(master_foo, text="this is foo").pack(side=LEFT)
+    # Button to quit app on right
+    btn = Button(master_foo, text="foo", command=master.quit)
+    btn.pack(side=RIGHT)
+    nb.add(master_foo, text="foo") # add tab to Notebook
+
+    # repeat for each tab
+    master_bar = Frame(master, name='master-bar')
+    Label(master_bar, text="this is bar").pack(side=LEFT)
+    btn = Button(master_bar, text="bar", command=master.quit)
+    btn.pack(side=RIGHT)
+    nb.add(master_bar, text="bar")
+
+    # root = tk.Tk()
+    # root.title("Dikastis Client")
+
+    # var = tk.StringVar(root)
+    # # initial value
+    # var.set('select problem')
+    # option = tk.OptionMenu(root, var, *choices)
+    # option.pack(pady = 1 , side='left')
+    # button = tk.Button(root, text="browse file & submit", command=lambda: select(var,soc))
+    # button.pack(side='left', padx=20, pady=1)
+
+    # labelText = tk.StringVar()
+    # labelText.set('\n')
+    # label1 = tk.Label(root, textvariable=labelText, height=10)
+    # label1.pack()
     root.mainloop()
 
 
+
+
 def authenticate(username , password):
-    # soc.send( str( username.get()) + " " + str(password.get()) ) 
-    # result = soc.recv(100)
+    soc.send( str( username.get()) + " " + str(password.get()) ) 
+    result = soc.recv(100)
     result = "200"
     if result == "200": # 200 code refers that login was successful
         login_window.destroy()
         thread.start_new_thread(start_cliet_reciever,("ok",))
-        start("ok")
-    else:
+        start()
+    else:# 201 for wrong
+        tkMessageBox.showinfo("alert", "Wrong id/password combination !!")
         pass
-        #wrong id pw
 
 
 
