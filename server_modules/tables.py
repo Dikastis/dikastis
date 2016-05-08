@@ -3,10 +3,11 @@ TABLES = {}
 TABLES['client_details'] = (
     "CREATE TABLE client_details ("
     "  team_code varchar(100) NOT NULL,"
-    "  team_name varchar(100) NOT NULL,"
+    "  ip varchar(100) NOT NULL,"
+    "  port integer NOT NULL,"
     "  language varchar(50) NOT NULL,"
     "  file_name LONGBLOB NOT NULL,"
-    "  time_stamp timestamp DEFAULT CURRENT_TIMESTAMP,"
+    "  time_stamp timestamp NOT NULL,"
     "  problem_code varchar(100) NOT NULL,"
     "  submission_number integer NOT NULL,"
     "  PRIMARY KEY (team_code,problem_code,submission_number)"

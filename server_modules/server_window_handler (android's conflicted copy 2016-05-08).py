@@ -1,6 +1,5 @@
 import socket
 from constants.network_constants import *
-from constants.file_constants import *
 import thread
 from server_modules.client_modules_for_server import start_judge
 from server_modules.start_server_module import startServer
@@ -19,8 +18,7 @@ except ImportError:
 total_problems = 0
 q = []
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-input_file_path_string = ''
-output_file_path_string = ''
+
 class MainWindow(tk.Frame):
   
 
@@ -34,14 +32,12 @@ class MainWindow(tk.Frame):
                 return("break")
 
             def file_loader(type):
-                global input_file_path_string, output_file_path_string
                 if type == "in":
                     input_file_path_string = tkFileDialog.askopenfilename(filetypes = (("Input Files", "*.in")
                                                                                         ,("txt Files", "*.txt")))
                 elif type == "out":
                     output_file_path_string = tkFileDialog.askopenfilename(filetypes = (("Output Files", "*.out")
                                                          ,("txt Files", "*.txt")))
-
             labelText = tk.StringVar()
             labelText.set('Enter Problem name')
             label1 = tk.Label(self, textvariable=labelText, height=1)
@@ -72,7 +68,7 @@ class MainWindow(tk.Frame):
             button = tk.Button(self, text="Add", command=lambda: addProblem(problem_name , problem_code , listbox))
             button.pack()
 
-            listbox = tk.Listbox(self,width=100)
+            listbox = tk.Listbox(self,width=30)
             listbox.pack()
             listbox.insert(tk.END, "problems:")
 
@@ -105,29 +101,13 @@ def addProblem(problem_name , problem_code, listbox):
         name = problem_name.get("1.0",tk.END)[:-1]
         code = problem_code.get("1.0",tk.END)[:-1]
 
-        item = 'name: ' + name + ' | code: ' + code + ' | input_file: ' + str(name+code) + ".in" + ' | out_file:' + str(name+code) + ".out"
+        item = 'name: ' + name + ' code: ' + code
         listbox.insert(tk.END,item)
         
-
-        in_file = open(input_file_path_string,'r')
-        data = in_file.read()
-
-        server_in_file_path = file_path + str(name+code) + ".in"
-        server_in_file = open(server_in_file_path,'w')
-        server_in_file.write(data)
-
-        out_file = open(output_file_path_string,'r')
-        data = out_file.read()
-
-        server_out_file_path = file_path + str(name+code) + ".out"
-        server_out_file = open(server_out_file_path,'w')
-        server_out_file.write(data)
-       
-        # print name + '$%$' + code
-        # q.append(str(total_problems) + '.)' + name + '$%$' + code)
-
-
+        print name + '$%$' + code
+        q.append(str(total_problems) + '.)' + name + '$%$' + code)
         tkMessageBox.showinfo('Info', 'Problem Successfully Added To Contest!!')
+
         problem_name.delete('1.0', tk.END)
         problem_code.delete('1.0', tk.END)
         
