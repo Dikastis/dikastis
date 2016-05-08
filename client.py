@@ -5,13 +5,25 @@ from constants.color_constants import *
 import sys
 import tkMessageBox
 import tkFont
+import ttk
+import ScrolledText
+import thread
 
 sol_data = ''
 problem_selected = ''
 
 '''loading list of questions'''
-#soc = socket.socket()
-#soc.connect(('',PORT))
+# soc = socket.socket()
+# soc.connect(('',PORT))
+# soc.send('10') # 10 refres to client type 
+# response = soc.recv(100)
+
+# if response == "100": # response 100 means server ready to recv client id and password
+#     pass
+# else:
+#     #tkmessage box for error
+#     #handle for retrying
+#     pass
 
 try:
     # Python2
@@ -20,13 +32,26 @@ except ImportError:
     # Python3
     import tkinter as tk
 
-def __start():
+def start_cliet_reciever(ok):
+    socRecveiver = socket.socket()
+    print "thread working"
+    # socRecveiver.connect(('',PORT))
+    # socRecveiver.send('11') #11 refers to client reciever type
+    # response = soc.recv(100)
+    # if response == "101": # 101 refers ok
+    #     socRecveiver.send("102") # 102 refers ready to recieve data
+    #     pass
+    # else:
+    #     #handle error or show box
+    #     pass
+
+def start(ok):
 
     data = "asdfghjkljhgfd$cvkz$xdghjkjhcx$hjklkjhgf";
     choices = data.split('$')
 
     root = tk.Tk()
-    root.title("Code Judge Client")
+    root.title("Dikastis Client")
 
     var = tk.StringVar(root)
     # initial value
@@ -42,13 +67,15 @@ def __start():
     label1.pack()
     root.mainloop()
 
-def __authenticate(username , password):
-    #soc.send( str(username.get()) + str(password.get()) ) 
-    #result = soc.recv(100)
-    result = "asdflkjh34789ccy78okcdr56ujmnbvf"
-    if result != "wrong":
+
+def authenticate(username , password):
+    # soc.send( str( username.get()) + " " + str(password.get()) ) 
+    # result = soc.recv(100)
+    result = "200"
+    if result == "200": # 200 code refers that login was successful
         login_window.destroy()
-        start()
+        thread.start_new_thread(start_cliet_reciever,("ok",))
+        start("ok")
     else:
         pass
         #wrong id pw
