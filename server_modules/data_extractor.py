@@ -51,8 +51,8 @@ def authenticate(_team_login):
 	
 	cnx.commit()
 	cnx.close()
+
 	if number_of_rows > 0:
 		return 1
-	else:
-		return 0
 
+# def 
