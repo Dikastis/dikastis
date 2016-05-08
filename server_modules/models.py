@@ -4,8 +4,8 @@ class client_data:
 		self.team_name = ""
 		self.problem_code = ""
 		self.language = ""
-		self.timestamp = ""
-		self.filename = ""
+		self.time_stamp = ""
+		self.file_name = ""
 		self.submission_number = 0
 		
 
@@ -19,9 +19,9 @@ class client_data:
 
 class calc_server_data:
 	def __init__(self):
-		self.ip = " " 
-		self.port = " "
-		self.queue_size = " "
+		self.ip = "" 
+		self.port = ""
+		self.queue_size = ""
 
 class problems_data:
 	def __init__(self):
@@ -34,9 +34,7 @@ class problems_data:
 		print self.problem_name
 		print self.problem_statement
 
-
-
-
-	
-	
-	
+class team_login:
+	def __init__(self):
+		self.id = ""
+		self.password  = ""
