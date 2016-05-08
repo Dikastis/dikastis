@@ -11,6 +11,8 @@ def startServer(total_problems , q , s):
         problem_choices = problem_choices + q[i] + '&&&'
  
     #Bind socket to local host and port
+    HOST = ''   # Symbolic name, meaning all available interfaces
+    PORT = 4444 
     try:
         s.bind((HOST, PORT))
     except socket.error as msg:
@@ -20,7 +22,7 @@ def startServer(total_problems , q , s):
     print 'Socket bind complete'
  
     #Start listening on socket
-    s.listen(10)
+    s.listen()
     print 'Socket now listening'
  
     #now keep talking with the client

@@ -6,6 +6,8 @@ class client_data:
 		self.language = ""
 		self.timestamp = ""
 		self.filename = ""
+		self.submission_number = 0
+		
 
 	def display_data():
 		print self.team_id
@@ -20,6 +22,8 @@ class calc_server_data:
 		self.ip = " " 
 		self.port = " "
 		self.queue_size = " "
+
+
 
 	
 	
