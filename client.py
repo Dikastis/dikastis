@@ -11,13 +11,14 @@ import ScrolledText
 import thread
 import pickle
 
+
 sol_data = ''
 problem_selected = ''
 
 
 
 soc = socket.socket()
-soc.connect(('192.168.0.103',4448))
+soc.connect(('',4459))
 soc.send('1000') # 10 refres to client type 
 response = soc.recv(1000)
 
