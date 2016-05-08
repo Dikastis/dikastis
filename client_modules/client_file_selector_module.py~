@@ -28,6 +28,6 @@ def select(var,soc):
 
 	soc.send('waiting for result')
 
-	# result = soc.recv(100)
-	# tkMessageBox.showinfo('report', 'submission result : ' + result)
-	# print result
+	result = soc.recv(100)
+	tkMessageBox.showinfo('report', 'submission result : ' + result)
+	print result

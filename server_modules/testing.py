@@ -31,6 +31,7 @@ problems.append(data)
 problems.append(data2)
 
 
+login_team = 
 
 s = socket.socket()         # Create a socket object
 host = "192.168.0.103" # Get local machine name
