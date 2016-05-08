@@ -61,7 +61,7 @@ def add_response_data(_response_data):
 	response = ("INSERT INTO response"
 				"(team_id, language, problem_code, submission_number, execution_time, judgment, memory )"
 				"VALUES (%s, %s, %s, %s, %s, %s, %s) ")
-	data_response = (_response_data.id, _response_data.language, _response_data.problem_code, _response_data.submission_number, _response_data.exec_time,_response_data.result)
+	data_response = (_response_data.id, _response_data.language, _response_data.problem_code, _response_data.submission_number, _response_data.exec_time,_response_data.result, _response_data.memory)
 	cursor.execute(response,data_response)
 	cnx.commit()
 	cnx.close()

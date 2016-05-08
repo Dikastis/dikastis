@@ -38,8 +38,9 @@ class response_data:
 		self.submission_number = ""
 		self.exec_time = ""
 		self.result = ""
+		self.memory = ""
 
-class client_connections():
+class client_connections_data():
 	def __init__(self):
 		self.ip = ""
 		self.port = ""

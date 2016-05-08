@@ -19,9 +19,9 @@ TABLES ['response'] = (
     "  time_stamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,"
     "  problem_code varchar(100) NOT NULL,"
     "  submission_number integer NOT NULL,"
-    "  execution_time integer NOT NULL,"
+    "  execution_time varchar(5) NOT NULL,"
     "  judgment integer NOT NULL,"
-    "  memory integer,"
+    "  memory varchar(5),"
     "  PRIMARY KEY (team_id,problem_code,submission_number)"
     ") ENGINE=InnoDB")
 
@@ -36,11 +36,11 @@ TABLES ['servers'] = (
 
 TABLES ['problems'] =(
     "CREATE TABLE problems ("
-    "   problem_id bigint auto_increment NOT NULL,"
+    "   problem_id bigint auto_increment UNIQUE NOT NULL,"
     "   problem_name varchar(50) NOT NULL,"
     "   problem_code varchar(50) NOT NULL,"
     "   problem_statement text NOT NULL,"
-    "   PRIMARY KEY(problem_name,problem_code,problem_statement)"
+    "   PRIMARY KEY(problem_name,problem_code)"
     ") ENGINE=InnoDB")
 
 TABLES ['team_credentials'] = (
