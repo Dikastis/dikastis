@@ -32,3 +32,10 @@ TABLES ['servers'] = (
     "  server_port varchar(50) NOT NULL,"
     "  PRIMARY KEY (server_ip)"
     ") ENGINE=InnoDB")
+
+TABLES ['problems'] =(
+    "CREATE TABLE problems ("
+    "   problem_id bigint auto_increment PRIMARY KEY NOT NULL,"
+    "   problem_name varchar(50) NOT NULL,"
+    "   problem_code varchar(50) NOT NULL"
+    ") ENGINE=InnoDB")
