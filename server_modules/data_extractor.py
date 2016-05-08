@@ -88,3 +88,9 @@ def add_client_connections(_client_connections):
 	cursor.execute(connection,data_connection)
 	cnx.commit()
 	cnx.close()
+
+# def get_client_data(request):
+# 	print request
+
+
+# get_client_data("name,fame,,")

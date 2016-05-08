@@ -69,7 +69,10 @@ class MainWindow(tk.Frame):
             button = tk.Button(self, text="Output file",command=lambda:file_loader("out"))
             button.pack()
 
-            button = tk.Button(self, text="Add", command=lambda: addProblem(problem_name , problem_code , listbox))
+            button = tk.Button(self, text="Click To ADD", command=lambda: addProblem(problem_name , problem_code , listbox))
+            button.pack()
+
+            button = tk.Button(self, text="startServer",command=lambda:startServer)
             button.pack()
 
             listbox = tk.Listbox(self,width=100)
