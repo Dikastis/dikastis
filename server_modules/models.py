@@ -23,6 +23,18 @@ class calc_server_data:
 		self.port = " "
 		self.queue_size = " "
 
+class problems_data:
+	def __init__(self):
+		self.problem_code = ""
+		self.problem_data = ""
+		self.problem_statement = ""
+
+	def display_problem_data():
+		print self.problem_code
+		print self.problem_name
+		print self.problem_statement
+
+
 
 
 	

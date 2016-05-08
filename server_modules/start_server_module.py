@@ -30,6 +30,21 @@ def startServer(total_problems , q , s):
         #wait to accept a connection - blocking call
         conn, addr = s.accept()
         print 'Connected with ' + addr[0] + ':' + str(addr[1])
+
+        type = conn.recv(100)
+
+        if type == "1000": # connection is client
+            #starting judge
+            thread.start_new_thread(start_judge,(conn,))
+            pass
+            
+        elif type == "1001": # connection is client reciever
+            pass
+        elif type == "1002": #connection is server
+            pass
+        else:
+            #handle error
+            pass
     
         #sending all problems in this contest
         conn.send(problem_choices)
