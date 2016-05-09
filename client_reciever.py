@@ -14,7 +14,7 @@ root.withdraw()
 
 HOST = ''
 #HOST = ''
-PORT = 1234
+PORT = 11111
 
 def reciever(soc):
     #reciving 
@@ -52,4 +52,5 @@ if response == "3000": # 101 refers ok
 else:
     #handle error or show box
     pass
+
 
