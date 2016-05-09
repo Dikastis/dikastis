@@ -29,6 +29,8 @@ class MainWindow(tk.Frame):
         
 
         def problem_window(self):
+
+            global q, s
             def focus_next_window(event):
                 event.widget.tk_focusNext().focus()
                 return("break")
@@ -64,18 +66,17 @@ class MainWindow(tk.Frame):
 
             problem_code.bind("<Tab>", focus_next_window)
 
-            button = tk.Button(self, text="Input file", command=lambda:file_loader("in"))
+            button = tk.Button(self,  text="Input file", command=lambda:file_loader("in"))
             button.pack()
             button = tk.Button(self, text="Output file",command=lambda:file_loader("out"))
             button.pack()
 
             button = tk.Button(self, text="Click To ADD", command=lambda: addProblem(problem_name , problem_code , listbox))
             button.pack()
-
-            button = tk.Button(self, text="startServer",command=lambda:startServer)
+            button = tk.Button(self, text="startServer",command=lambda:startServer(total_problems,q,s))
             button.pack()
 
-            listbox = tk.Listbox(self,width=100)
+            listbox = tk.Listbox(self,width=60)
             listbox.pack()
             listbox.insert(tk.END, "problems:")
 
@@ -127,7 +128,7 @@ def addProblem(problem_name , problem_code, listbox):
         server_out_file.write(data)
        
         # print name + '$%$' + code
-        # q.append(str(total_problems) + '.)' + name + '$%$' + code)
+        q.append(str(total_problems) + '.)' + name + '$%$' + code)
 
 
         tkMessageBox.showinfo('Info', 'Problem Successfully Added To Contest!!')
