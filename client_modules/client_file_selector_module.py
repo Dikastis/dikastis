@@ -24,10 +24,10 @@ def select(var,soc):
 	soc.send(data)
 
 	response = soc.recv(100)
-	print response
+	print response #3002
 
-	soc.send('waiting for result')
 
 	# result = soc.recv(100)
 	# tkMessageBox.showinfo('report', 'submission result : ' + result)
 	# print result
+

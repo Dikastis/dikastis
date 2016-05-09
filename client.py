@@ -11,12 +11,15 @@ import ScrolledText
 import thread
 import pickle
 import ttk
+import os
 
 sol_data = ''
 problem_selected = ''
 
-HOST = ''
-PORT = 4460
+HOST = '192.168.43.165'
+
+PORT = 4455
+# PORT_R = 4451
 
 
 
@@ -32,27 +35,6 @@ else:
     pass
 
 
-def reciever(soc):
-    #reciving 
-    data = soc.recv(10000)
-
-    #writing to file
-    f = open('notifications.txt','a+')
-    f.write(data + "\n")
-    f.close()
-
-    data = data.split('$$$')
-    if data[0] == "broadcast":
-        tkMessageBox.showinfo( data[0], data[1] )
-        soc.send("3002")
-    elif data[0] == "result":
-        tkMessageBox.showinfo( data[0], data[1] )
-        soc.send("3002")
-    else:
-        soc.send("3002")
-
-    reciever(soc)
-
 
 
 
@@ -64,21 +46,11 @@ except ImportError:
     import tkinter as tk
 
 def start_cliet_reciever(ok):
-    socRecveiver = socket.socket()
-    print "thread working"
-    socRecveiver.connect((HOST , PORT))
-    socRecveiver.send('1001') #11 refers to client reciever type
-    response = soc.recv(100)
-    if response == "3000": # 101 refers ok
-        socRecveiver.send("3001") # 102 refers ready to recieve data
+    os.system('python client_reciever.py')
 
-        thread.start_new_thread(reciever,(socRecveiver,))
-        pass
-    else:
-        #handle error or show box
-        pass
+    
 
-def start():
+def start(soc):
     soc.send('3001')
     data = soc.recv(100000)
     print data + "--------------------------------------------"
@@ -133,11 +105,15 @@ def start():
     nb.add(master_submit, text="submit code") # add tab to Notebook
 
     # repeat for each tab
-    master_bar = tk.Frame(master, name='master-bar')
-    tk.Label(master_bar, text="this is bar").pack(side=tk.LEFT)
-    btn = tk.Button(master_bar, text="bar", command=master.quit)
-    btn.pack(side=tk.RIGHT)
-    nb.add(master_bar, text="notifications")
+    notification_tab = tk.Frame(master, name='master-bar')
+    btn = tk.Button(notification_tab, text="refresh", command = lambda: setNotifications(listbox))
+    btn.pack(fill=tk.BOTH , expand = True , side = 'top')
+
+    listbox = tk.Listbox(notification_tab , width=100)
+    listbox.pack()
+    listbox.insert(tk.END, "Notifications :")
+
+    nb.add(notification_tab, text="notifications")
 
     root.mainloop()
 
@@ -150,7 +126,8 @@ def authenticate(username , password):
     if result == "200": # 200 code refers that login was successful
         login_window.destroy()
         thread.start_new_thread(start_cliet_reciever,("ok",))
-        start()
+        #os.system('python client_reciever.py')
+        start(soc)
     else:# 201 for wrong
         tkMessageBox.showinfo("alert", "Wrong id/password combination !!")
         pass

@@ -1,37 +1,30 @@
 (lp0
-(imodels
-problems_data
+ccopy_reg
+_reconstructor
 p1
-(dp2
-S'problem_code'
-p3
-S'q1'
-p4
-sS'problem_id'
-p5
-S''
-p6
-sS'problem_statement'
-p7
-S'this is a testing problem.Here you can test your problem'
-p8
-sS'problem_name'
-p9
-S'testing problem'
-p10
-sba(imodels
+(cserver_modules.models
 problems_data
+p2
+c__builtin__
+object
+p3
+Ntp4
+Rp5
+(dp6
+S'problem_code'
+p7
+Vq1
+p8
+sS'problem_id'
+p9
+S'1'
+p10
+sS'problem_statement'
 p11
-(dp12
-g3
-S'q2'
+Vthis is a testing problem.Here you can test your problem
+p12
+sS'problem_name'
 p13
-sg5
-g6
-sg7
-S'this is a testing problem.Here you can test your problem2'
+Vtesting problem
 p14
-sg9
-S'testing problem2'
-p15
 sba.
