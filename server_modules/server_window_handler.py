@@ -27,10 +27,8 @@ class MainWindow(tk.Frame):
 
     def __init__(self, *args, **kwargs):
         self.s = s
-        
 
         def problem_window(self):
-
             global q, s
             def focus_next_window(event):
                 event.widget.tk_focusNext().focus()
@@ -89,8 +87,11 @@ class MainWindow(tk.Frame):
             listbox.grid(row=7,column=1)
             listbox.insert(tk.END, "problems:")
 
-            # check_problem_list(listbox)
-
+            i = 0
+            data = get_problem_data("1")
+            for i in range(len(data)):
+                item = 'name: ' + data[i].problem_name + ' | code: ' + data[i].problem_code + ' | input_file: ' + str(data[i].problem_name+data[i].problem_code) + ".in" + ' | out_file:' + str(data[i].problem_name+data[i].problem_code) + ".out"
+                listbox.insert(tk.END,item)
 
 
         tk.Frame.__init__(self, *args, **kwargs)
@@ -120,10 +121,6 @@ def addProblem(problem_name , problem_code, listbox):
         name = problem_name.get("1.0",tk.END)[:-1]
         code = problem_code.get("1.0",tk.END)[:-1]
 
-        item = 'name: ' + name + ' | code: ' + code + ' | input_file: ' + str(name+code) + ".in" + ' | out_file:' + str(name+code) + ".out"
-        listbox.insert(tk.END,item)
-        
-
         in_file = open(input_file_path_string,'r')
         data = in_file.read()
         server_in_file_path = file_path + str(name+code) + ".in"
@@ -145,7 +142,8 @@ def addProblem(problem_name , problem_code, listbox):
         data.problem_statement = statement_data
         add_problem_data(data)
 
-
+        item = 'name: ' + name + ' | code: ' + code + ' | input_file: ' + str(name+code) + ".in" + ' | out_file:' + str(name+code) + ".out"
+        listbox.insert(tk.END,item)
 
 
         # print name + '$%$' + code
@@ -155,7 +153,3 @@ def addProblem(problem_name , problem_code, listbox):
         tkMessageBox.showinfo('Info', 'Problem Successfully Added To Contest!!')
         problem_name.delete('1.0', tk.END)
         problem_code.delete('1.0', tk.END)
-        
-
-# def check_problem_list(listbox):
-#     data = get_problem_list()
