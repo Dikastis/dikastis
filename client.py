@@ -16,10 +16,9 @@ import os
 sol_data = ''
 problem_selected = ''
 
-HOST = '192.168.43.165'
-
-PORT = 4455
-# PORT_R = 4451
+HOST = ''
+#Host = ''
+PORT = 1234
 
 
 
@@ -48,12 +47,21 @@ except ImportError:
 def start_cliet_reciever(ok):
     os.system('python client_reciever.py')
 
-    
+   
+def setNotifications(list):
+    list.delete(1,tk.END)
+    f = open('notifications.txt','r')
+    notification_list = f.read().splitlines()
+    for notification in notification_list:
+        print notification
+        if notification != "":
+            list.insert(tk.END, notification.split('$$$')[0] + " : " + notification.split('$$$')[1])
+
+
 
 def start(soc):
     soc.send('3001')
     data = soc.recv(100000)
-    print data + "--------------------------------------------"
     f = open('dd.b','w')
     f.write(data)
     f.close()
@@ -171,6 +179,7 @@ login_views = Login(login_window)
 login_views.show()
 
 login_window.mainloop()
+
 
 
 
