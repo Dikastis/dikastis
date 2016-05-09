@@ -14,7 +14,7 @@ root.withdraw()
 
 HOST = ''
 #HOST = ''
-PORT = 4444
+PORT = 4463
 
 def reciever(soc):
 
@@ -46,7 +46,7 @@ def reciever(soc):
 
 
 
-f=open('login_id.txt','w')
+f=open('login_id.txt','r')
 user_id = f.read()
 f.close()
 
@@ -56,11 +56,12 @@ socRecveiver.connect((HOST , PORT))
 socRecveiver.send('1001') #11 refers to client reciever type
 response = socRecveiver.recv(100)
 if response == "3002": # 101 refers ok
-    socRecveiver.send(str(user_id) # 102 refers ready to recieve data
+    socRecveiver.send(str(user_id)) # 102 refers ready to recieve data
     reciever(socRecveiver)
 else:
     #handle error or show box
     pass
+
 
 
 
