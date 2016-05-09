@@ -47,10 +47,10 @@ class MainWindow(tk.Frame):
             labelText = tk.StringVar()
             labelText.set('Enter Problem name')
             label1 = tk.Label(self, textvariable=labelText, height=1)
-            label1.pack()
+            label1.grid(row=1,column=0)
 
             problem_name = tk.Text(self, height=1, width=30)
-            problem_name.pack()
+            problem_name.grid(row=1,column=1)
             problem_name.insert(tk.END, "")
             
             problem_name.bind("<Tab>", focus_next_window)
@@ -58,26 +58,26 @@ class MainWindow(tk.Frame):
             labelText = tk.StringVar()
             labelText.set('Enter Problem Code')
             label1 = tk.Label(self, textvariable=labelText, height=1)
-            label1.pack()
+            label1.grid(row=2,column=0)
 
             problem_code = tk.Text(self, height=1, width=30)
-            problem_code.pack()
+            problem_code.grid(row=2,column=1)
             problem_code.insert(tk.END, "")
 
             problem_code.bind("<Tab>", focus_next_window)
 
             button = tk.Button(self,  text="Input file", command=lambda:file_loader("in"))
-            button.pack()
+            button.grid(row=3,column=1)
             button = tk.Button(self, text="Output file",command=lambda:file_loader("out"))
-            button.pack()
+            button.grid(row=3,column=2)
 
             button = tk.Button(self, text="Click To ADD", command=lambda: addProblem(problem_name , problem_code , listbox))
-            button.pack()
+            button.grid(row=4,column=1)
             button = tk.Button(self, text="startServer",command=lambda:startServer(total_problems,q,s))
-            button.pack()
+            button.grid(row=5,column=1)
 
             listbox = tk.Listbox(self,width=60)
-            listbox.pack()
+            listbox.grid(row=7,column=1)
             listbox.insert(tk.END, "problems:")
 
             # check_problem_list(listbox)
@@ -88,18 +88,18 @@ class MainWindow(tk.Frame):
         tk.Frame(self,width=600,height=400)
         
         notebook = ttk.Notebook(self)
-        notebook.pack()
+        notebook.grid(row=0)
         subframe = tk.Frame(self,width=280,height=400)
-        subframe.pack()
+        subframe.grid(row=0,column=0)
         notebook.add(subframe, text="ADD Problems", state="normal")
         problem_window(subframe)
         
         subframe1 = tk.Frame(self,width=280,height=400)
-        subframe1.pack()
-        notebook.add(subframe1, text="All Problem List", state="normal")
+        subframe1.grid(row=0,column=1)
+        notebook.add(subframe1, text="All Submission List", state="normal")
         
         subframe21 = tk.Frame(self,width=280,height=400)
-        subframe21.pack()
+        subframe21.grid(row=0,column=2)
         notebook.add(subframe21, text="Broadcast", state="normal")
 
 
