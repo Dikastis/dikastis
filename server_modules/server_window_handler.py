@@ -7,7 +7,7 @@ from server_modules.start_server_module import startServer
 import tkMessageBox
 import ttk
 import tkFileDialog
-# from server_modules.database import *
+from server_modules.data_extractor import *
 
 try:
     # Python2
@@ -80,6 +80,8 @@ class MainWindow(tk.Frame):
             listbox.pack()
             listbox.insert(tk.END, "problems:")
 
+            check_problem_list(listbox)
+
 
 
         tk.Frame.__init__(self, *args, **kwargs)
@@ -136,3 +138,5 @@ def addProblem(problem_name , problem_code, listbox):
         problem_code.delete('1.0', tk.END)
         
 
+def check_problem_list(listbox):
+    data = get_problem_list()

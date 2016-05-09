@@ -1,5 +1,5 @@
-class client_data:
-	def __init__(self):
+class client_data(object):
+	def __init__(self,object):
 		self.team_id = ""
 		self.team_name = ""
 		self.problem_code = ""
@@ -8,16 +8,15 @@ class client_data:
 		self.file_name = ""
 		self.submission_number = 0
 
-
-class calc_server_data:
-	def __init__(self):
+class calc_server_data(object):
+	def __init__(self,object):
 		self.ip = "" 
 		self.port = ""
 		self.queue_size = ""
 
 
-class problems_data:
-	def __init__(self):
+class problems_data(object):
+	def __init__(self,object):
 		self.problem_id = ""
 		self.problem_code = ""
 		self.problem_name = ""
@@ -29,8 +28,8 @@ class team_login:
 		self.id = ""
 		self.password  = ""
 
-class response_data:
-	def __init__(self):
+class response_data(object):
+	def __init__(self,object):
 		self.id = ""
 		self.language = ""
 		self.time_stamp = ""
@@ -40,8 +39,8 @@ class response_data:
 		self.result = ""
 		self.memory = ""
 
-class client_connections_data():
-	def __init__(self):
+class client_connections_data(object):
+	def __init__(self,object):
 		self.ip = ""
 		self.port = ""
 		self.serial_key = ""
