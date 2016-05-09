@@ -22,8 +22,7 @@ server_load = []
 
 #print heapq.heappop(server_load)
 
-
-def create_connection(host='',port=4461):
+def create_connection(host='',port=11111):
 	sock = socket.socket()         # Create a socket object
 	#host = "" # Get local machine name
 	#port = 4460   # Reserve a port for your service.
@@ -87,7 +86,10 @@ def run_client(conn):
 			conn.send(file_data)
 
 			conn.send(DATA_RECEIVED_READY_FOR_NEXT)
-			code_receive_from_client(conn)	
+			code_receive_from_client(conn)
+
+
+			
 
 	else:
 		print "login not verified"
@@ -97,6 +99,8 @@ def run_client(conn):
 
 
 def run_notification_client(conn):
+	
+def broadcast_to_clients(msg):
 	conn.send(READY_TO_SEND)
 	connection_code = conn.recv(100)
 
@@ -108,19 +112,19 @@ def run_notification_client(conn):
 		if connection_code == DATA_RECEIVED_READY_FOR_NEXT:
 			print "notification send successfull"
 
-# def broadcast_to_clients(msg):
-	
 
 
 def run_submission_server(conn):
 	conn.send(SEND_QUEUE_SIZE)
 
 	queue_size = conn.recv(100)
-	print queue_size
 
 	heapq.heappush(server_load,(int(queue_size),conn))
 
-	
+	conn.send(READY_TO_SEND)
+
+
+
 
 def code_receive_from_client(conn):
 
@@ -136,7 +140,7 @@ def code_receive_from_client(conn):
 		#submission_details.submission_number = data[1]
 		submission_details.problem_code = received_data
 
-		#print submission_details.problem_code
+		print submission_details.problem_code
 
 		total = conn.recv(100000)
 		# data = conn.recv(1000)
@@ -146,11 +150,9 @@ def code_receive_from_client(conn):
 		# 	data = conn.recv(1000)
 
 		submission_details.problem_statement = total
-		#print submission_details.problem_statement
+		print submission_details.problem_statement
 
-
-		thread.start_new_thread(send_to_judge,(conn,submission_details,))
-
+		#thread.start_new_thread(send_to_judge,(conn,submission_details,))
 
 		conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 
@@ -158,31 +160,8 @@ def code_receive_from_client(conn):
 def send_to_judge(conn,submission_details):
 
 	q_size,conn_sub_server = heapq.heappop(server_load)
-	print "hello"
-	#conn_sub_server.send("testing hello")
-	new_queue_size = q_size+1
-	heapq.heappush(server_load,(q_size,conn_sub_server))
 
-	test = True
-	submission_details.display()
-
-	while test==True:
-		try:
-			pickle.dump( submission_details, open( "submission.b", "wb" ) )
-			f = open("submission.b","rb")
-			file_data = str(f.read())
-			f.close()
-	
-			conn_sub_server.send(file_data)
-			test = False
-
-		except:
-			if server_load.size()>0:
-				q_size,conn_sub_server = heapq.heappop(server_load)
-				new_queue_size = q_size+1
-				heapq.heappush(server_load,(q_size,conn_sub_server))
-			else:
-				print "no more server connected"
+	conn_sub_server.send("testing hello")
 
 
 

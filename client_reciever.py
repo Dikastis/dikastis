@@ -12,45 +12,56 @@ root = tk.Tk()
 root.withdraw()
 
 
-HOST = "172.16.86.159"
+HOST = ''
 #HOST = ''
 PORT = 4466
 
 def reciever(soc):
-    #reciving 
-    data = soc.recv(10000)
 
-    #writing to file
-    f = open('notifications.txt','a+')
-    f.write(data + "\n")
-    f.close()
+    while 1:
+        #reciving 
+        data = soc.recv(100000)
 
-    data = data.split('$$$')
-    if data[0] == "broadcast":
-        tkMessageBox.showinfo( data[0], data[1] )
-        print data
-        soc.send("3002")
-    elif data[0] == "result":
-        tkMessageBox.showinfo( data[0], data[1] )
-        print data
-        soc.send("3002")
-    else:
-        tkMessageBox.showinfo( data[0], data[1] )
-        soc.send("3002")
+        #writing to file
+        f = open('notifications.txt','a+')
+        f.write(data + "\n")
+        f.close()
 
-    reciever(soc)
+        data = data.split('$$$')
+        try:
+            if data[0] == "broadcast":
+                tkMessageBox.showinfo( data[0], data[1] )
+                print data
+                soc.send("3002")
+            elif data[0] == "result":
+                tkMessageBox.showinfo( data[0], data[1] )
+                print data
+                soc.send("3002")
+            else:
+                tkMessageBox.showinfo( data[0], data[1] )
+                soc.send("3002")
+        except:
+            soc.send("3002")
 
+
+
+
+f=open('login_id.txt','r')
+user_id = f.read()
+f.close()
 
 socRecveiver = socket.socket()
 print "thread working"
 socRecveiver.connect((HOST , PORT))
 socRecveiver.send('1001') #11 refers to client reciever type
 response = socRecveiver.recv(100)
-if response == "3000": # 101 refers ok
-    socRecveiver.send("3001") # 102 refers ready to recieve data
+if response == "3002": # 101 refers ok
+    socRecveiver.send(str(user_id)) # 102 refers ready to recieve data
     reciever(socRecveiver)
 else:
     #handle error or show box
     pass
+
+
 
 

@@ -16,7 +16,7 @@ import os
 sol_data = ''
 problem_selected = ''
 
-HOST = "172.16.86.159"
+HOST = ''
 #Host = ''
 PORT = 4466
 
@@ -132,6 +132,12 @@ def authenticate(username , password):
     soc.send( str( username.get()) + " " + str(password.get()) ) 
     result = soc.recv(100)
     if result == "200": # 200 code refers that login was successful
+
+        #saving username
+        f=open('login_id.txt','w')
+        f.write( str( username.get() ))
+        f.close()
+        
         login_window.destroy()
         thread.start_new_thread(start_cliet_reciever,("ok",))
         #os.system('python client_reciever.py')
@@ -179,6 +185,8 @@ login_views = Login(login_window)
 login_views.show()
 
 login_window.mainloop()
+
+
 
 
 
