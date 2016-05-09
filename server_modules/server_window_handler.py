@@ -123,13 +123,13 @@ def addProblem(problem_name , problem_code, listbox):
 
         in_file = open(input_file_path_string,'r')
         data = in_file.read()
-        server_in_file_path = file_path + str(name+code) + ".in"
+        server_in_file_path = file_path + str(code) + ".in"
         server_in_file = open(server_in_file_path,'w')
         server_in_file.write(data)
 
         out_file = open(output_file_path_string,'r')
         data = out_file.read()
-        server_out_file_path = file_path + str(name+code) + ".out"
+        server_out_file_path = file_path + str(code) + ".out"
         server_out_file = open(server_out_file_path,'w')
         server_out_file.write(data)
        
@@ -142,7 +142,7 @@ def addProblem(problem_name , problem_code, listbox):
         data.problem_statement = statement_data
         add_problem_data(data)
 
-        item = 'name: ' + name + ' | code: ' + code + ' | input_file: ' + str(name+code) + ".in" + ' | out_file:' + str(name+code) + ".out"
+        item = 'name: ' + name + ' | code: ' + code + ' | input_file: ' + str(code) + ".in" + ' | out_file:' + str(code) + ".out"
         listbox.insert(tk.END,item)
 
 

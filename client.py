@@ -16,19 +16,8 @@ import os
 sol_data = ''
 problem_selected = ''
 
-HOST = "172.16.86.159"
-#Host = ''
-<<<<<<< HEAD
-PORT = 4467
-=======
-<<<<<<< HEAD
+HOST = ''
 PORT = 4471
-
-=======
-PORT = 4464
->>>>>>> 2c6cb3d3fcc835fb8f293706b05a50063803c781
->>>>>>> 3044e3139a9aea613cc6aaccb5a1f9770c4132b8
-
 
 soc = socket.socket()
 soc.connect((HOST , PORT))

@@ -17,8 +17,9 @@ SEND_QUEUE_SIZE = str(5000)
 import heapq
 
 server_load = []
-client_braodcast = []
-
+# client_braodcast = [dict() for _ in range(10000)]
+# client_braodcast = {}
+team_count = 0
 
 
 #print heapq.heappop(server_load)
@@ -98,17 +99,16 @@ def run_client(conn):
 
 
 def run_notification_client(conn):
-	data = []
+	client_broadcast = {}
 	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 	print "ready to receive team_id"
 	team_id = conn.recv(100)
-	print team_id
-	# data[0] = conn
-	# data[1] = team_id
+	# client_broadcast['conn'] = conn
+	client_broadcast[team_id] = conn
 	# client_braodcast.append(data)
-	# data = ''
-	print conn
-
+	print client_broadcast[team_id]
+	# print client_braodcast[0]['team_id']
+	print len(broadcast_msg)
 def broadcast_to_clients(msg):
 		broadcast_msg = "broadcast$$$"+str(msg)
 		conn.send(broadcast_msg)
