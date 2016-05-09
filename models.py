@@ -38,3 +38,18 @@ class team_login:
 	def __init__(self):
 		self.id = ""
 		self.password  = ""
+
+
+class problem_submission_from_client(object):
+	def __init__(self,object=0):
+		self.problem_code= ""
+		self.problem_language=""
+		self.problem_statement=""
+		self.conn = ""
+
+	def display(self):
+		print self.problem_code
+		print self.problem_language
+		print self.problem_statement
+		print self.conn
+

@@ -7,8 +7,16 @@ import tkMessageBox
 from connection import *
 
 def startServer(total_problems , q , s):
+<<<<<<< HEAD
 
     sock = create_connection("",4467)
+=======
+    
+   
+
+    sock = create_connection("172.16.86.159",4471)
+
+>>>>>>> 3044e3139a9aea613cc6aaccb5a1f9770c4132b8
     thread.start_new_thread(start_handshaking,(sock,))
 
 

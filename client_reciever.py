@@ -12,9 +12,14 @@ root = tk.Tk()
 root.withdraw()
 
 
-HOST = ''
+HOST = "172.16.86.159"
 #HOST = ''
+<<<<<<< HEAD
 PORT = 4467
+=======
+
+PORT = 4471
+>>>>>>> 3044e3139a9aea613cc6aaccb5a1f9770c4132b8
 
 def reciever(soc):
 
