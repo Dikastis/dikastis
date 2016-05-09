@@ -1,8 +1,7 @@
 from models import *
 from data_extractor import *
+from problem_data import *
 
 
-# data = client_connections_data(0)
-data = get_connections_data("1")
-print len(data)
-print data[0].sender_port
+data = get_problem_data();
+add_problem_data(data)

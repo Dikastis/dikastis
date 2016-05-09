@@ -20,9 +20,9 @@ server_load = []
 
 
 
-print heapq.heappop(server_load)
+#print heapq.heappop(server_load)
 
-def create_connection(host='',port=4444):
+def create_connection(host='',port=4455):
 	sock = socket.socket()         # Create a socket object
 	#host = "" # Get local machine name
 	#port = 4460   # Reserve a port for your service.
@@ -75,7 +75,7 @@ def run_client(conn):
 			#problem_data = get_problem_data()
 			#problem_data = problems_data(0)
 
-			problems_data = get_problem_data("1")
+			problem_data = get_problem_data("1")
 
 			#TODO : add mechanism for huge data sending
 
@@ -85,6 +85,7 @@ def run_client(conn):
 			f.close()
 			conn.send(file_data)
 
+			conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 			code_receive_from_client(conn)
 
 
@@ -102,7 +103,7 @@ def run_notification_client(conn):
 	connection_code = conn.recv(100)
 
 	if connection_code == READY_TO_RECEIVE:
-		dummy_notification = "B this is broadcast data"
+		dummy_notification = "broadcast$$$this is broadcast data"
 		conn.send(dummy_notification)
 
 		connection_code = conn.recv(100)
@@ -126,24 +127,29 @@ def run_submission_server(conn):
 def code_receive_from_client(conn):
 
 	received_data = conn.recv(1024)
-	data = []
-	data = received_data.split(" ")
+	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 
-	submission_details = problem_submission_from_client();
-	submission_details.problem_code = submission_details[0]
-	submission_details.language = submission_details[1]
-	submission_details.submission_number = submission_details[2]
+	#data = received_data.split(" ")
+	print "data going to receive"
+	submission_details = problem_submission_from_client(0);
+	#submission_details.problem_code = data[0]
+	#submission_details.language = data[1]
+	#submission_details.submission_number = data[1]
+	submission_details.problem_code = received_data
 
+	print submission_details.problem_code
 
 	total = ""
 	data = conn.recv(1000)
 	while data != "":
 		total = total  + data
-		data = s.recv(1000)
+		print total
+		data = conn.recv(1000)
 
 	submission_details.problem_statement = data
+	print submission_details.problem_statement
 
-	thread.start_new_thread(send_to_judge,(conn,submission_details,))
+	#thread.start_new_thread(send_to_judge,(conn,submission_details,))
 
 	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 
@@ -154,22 +160,23 @@ def send_to_judge(conn,submission_details):
 
 	q_size,conn_sub_server = heapq.heappop(server_load)
 
+	conn_sub_server.send("testing hello")
+
 
 
 
 
 def start_handshaking(sock):
     while True:
-    handshaking(sock)
+    	handshaking(sock)
 
 
 
 
 
-
-sock = create_connection()
-while True:
-	handshaking(sock)
+#sock = create_connection()
+#while True:
+#	handshaking(sock)
 
 
 
