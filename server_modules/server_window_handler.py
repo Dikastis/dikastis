@@ -21,6 +21,7 @@ q = []
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 input_file_path_string = ''
 output_file_path_string = ''
+statement_file_path = ''
 class MainWindow(tk.Frame):
   
 
@@ -36,13 +37,17 @@ class MainWindow(tk.Frame):
                 return("break")
 
             def file_loader(type):
-                global input_file_path_string, output_file_path_string
+                global input_file_path_string, output_file_path_string,statement_file_path
+
                 if type == "in":
                     input_file_path_string = tkFileDialog.askopenfilename(filetypes = (("Input Files", "*.in")
                                                                                         ,("txt Files", "*.txt")))
                 elif type == "out":
                     output_file_path_string = tkFileDialog.askopenfilename(filetypes = (("Output Files", "*.out")
-                                                         ,("txt Files", "*.txt")))
+                                                                                        ,("txt Files", "*.txt")))
+                elif type == "statement":
+                    statement_file_path = tkFileDialog.askopenfilename(filetypes = (("Statement File", "*.txt")
+                                                                                    ,("All Files", "*.*")))
 
             labelText = tk.StringVar()
             labelText.set('Enter Problem name')
@@ -70,18 +75,18 @@ class MainWindow(tk.Frame):
             button.grid(row=3,column=1)
             button = tk.Button(self, text="Output file",command=lambda:file_loader("out"))
             button.grid(row=3,column=2)
-            button = tk.Button(self, text="Submission ",command=lambda:file_loader("out"))
-            button.grid(row=3,column=2)
+            button = tk.Button(self, text="Problem Statement",command=lambda:file_loader("statement"))
+            button.grid(row=4,column=1)
             
 
 
             button = tk.Button(self, text="Click To ADD", command=lambda: addProblem(problem_name , problem_code , listbox))
-            button.grid(row=4,column=1)
-            button = tk.Button(self, text="startServer",command=lambda:startServer(total_problems,q,s))
             button.grid(row=5,column=1)
+            button = tk.Button(self, text="startServer",command=lambda:startServer(total_problems,q,s))
+            button.grid(row=6,column=1)
 
             listbox = tk.Listbox(self,width=60)
-            listbox.grid(row=6,column=1)
+            listbox.grid(row=7,column=1)
             listbox.insert(tk.END, "problems:")
 
             # check_problem_list(listbox)
@@ -121,18 +126,28 @@ def addProblem(problem_name , problem_code, listbox):
 
         in_file = open(input_file_path_string,'r')
         data = in_file.read()
-
         server_in_file_path = file_path + str(name+code) + ".in"
         server_in_file = open(server_in_file_path,'w')
         server_in_file.write(data)
 
         out_file = open(output_file_path_string,'r')
         data = out_file.read()
-
         server_out_file_path = file_path + str(name+code) + ".out"
         server_out_file = open(server_out_file_path,'w')
         server_out_file.write(data)
        
+        statement_file = open(statement_file_path,'r')
+        statement_data = statement_file.read()
+
+        data = problems_data()
+        data.problem_code = code
+        data.problem_name = name
+        data.problem_statement = statement_data
+        add_problem_data(data)
+
+
+
+
         # print name + '$%$' + code
         q.append(str(total_problems) + '.)' + name + '$%$' + code)
 
