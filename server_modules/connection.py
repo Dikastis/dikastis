@@ -97,8 +97,6 @@ def run_client(conn):
 
 
 def run_notification_client(conn):
-	
-def broadcast_to_clients(msg):
 	conn.send(READY_TO_SEND)
 	connection_code = conn.recv(100)
 
@@ -110,6 +108,8 @@ def broadcast_to_clients(msg):
 		if connection_code == DATA_RECEIVED_READY_FOR_NEXT:
 			print "notification send successfull"
 
+# def broadcast_to_clients(msg):
+	
 
 
 def run_submission_server(conn):
