@@ -24,8 +24,8 @@ print heapq.heappop(server_load)
 
 def create_connection(host='',port=4444):
 	sock = socket.socket()         # Create a socket object
-	host = "" # Get local machine name
-	port = 4460   # Reserve a port for your service.
+	#host = "" # Get local machine name
+	#port = 4460   # Reserve a port for your service.
 	sock.bind((host, port))        # Bind to the port
 	print "socket binding complete"
 	sock.listen(5)  
@@ -71,7 +71,14 @@ def run_client(conn):
 		connection_code = conn.recv(100)
 
 		if connection_code == READY_TO_RECEIVE:
-			problem_data = get_problem_data()
+			
+			#problem_data = get_problem_data()
+			#problem_data = problems_data(0)
+
+			problems_data = get_problem_data("1")
+
+			#TODO : add mechanism for huge data sending
+
 			pickle.dump( problem_data, open( "problem_data.b", "wb" ) )
 			f = open("problem_data.b","rb")
 			file_data = str(f.read())
@@ -79,7 +86,7 @@ def run_client(conn):
 			conn.send(file_data)
 
 			code_receive_from_client(conn)
-			
+
 
 			
 
@@ -136,11 +143,24 @@ def code_receive_from_client(conn):
 
 	submission_details.problem_statement = data
 
-	thread.start_new_thread(send_to_judge,(con,))
+	thread.start_new_thread(send_to_judge,(conn,submission_details,))
 
 	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 
+	code_receive_from_client(conn)
 
+
+def send_to_judge(conn,submission_details):
+
+	q_size,conn_sub_server = heapq.heappop(server_load)
+
+
+
+
+
+def start_handshaking(sock):
+    while True:
+    handshaking(sock)
 
 
 
