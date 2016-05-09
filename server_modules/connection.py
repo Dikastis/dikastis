@@ -24,11 +24,7 @@ client_braodcast = []
 #print heapq.heappop(server_load)
 
 
-<<<<<<< HEAD
-def create_connection(host='',port=4463):
-=======
 def create_connection(host='',port=4461):
->>>>>>> eab0a8724bfbd9dbe0f58548a09ec0600d4e4a5b
 	sock = socket.socket()         # Create a socket object
 	#host = "" # Get local machine name
 	#port = 4460   # Reserve a port for your service.
@@ -106,11 +102,12 @@ def run_notification_client(conn):
 	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 	print "ready to receive team_id"
 	team_id = conn.recv(100)
-	data['conn'] = conn
-	data['team_id'] = team_id
-	client_braodcast.append(data)
-	data = ''
-	
+	print team_id
+	# data[0] = conn
+	# data[1] = team_id
+	# client_braodcast.append(data)
+	# data = ''
+	print conn
 
 def broadcast_to_clients(msg):
 		broadcast_msg = "broadcast$$$"+str(msg)
