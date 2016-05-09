@@ -16,9 +16,9 @@ import os
 sol_data = ''
 problem_selected = ''
 
-HOST = ''
+HOST = "172.16.86.159"
 #Host = ''
-PORT = 1234
+PORT = 4463
 
 
 
@@ -179,6 +179,7 @@ login_views = Login(login_window)
 login_views.show()
 
 login_window.mainloop()
+
 
 
 
