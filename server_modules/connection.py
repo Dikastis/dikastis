@@ -22,7 +22,7 @@ server_load = []
 
 #print heapq.heappop(server_load)
 
-def create_connection(host='',port=4455):
+def create_connection(host='',port=4460):
 	sock = socket.socket()         # Create a socket object
 	#host = "" # Get local machine name
 	#port = 4460   # Reserve a port for your service.
@@ -86,10 +86,7 @@ def run_client(conn):
 			conn.send(file_data)
 
 			conn.send(DATA_RECEIVED_READY_FOR_NEXT)
-			code_receive_from_client(conn)
-
-
-			
+			code_receive_from_client(conn)	
 
 	else:
 		print "login not verified"
@@ -116,6 +113,7 @@ def run_submission_server(conn):
 	conn.send(SEND_QUEUE_SIZE)
 
 	queue_size = conn.recv(100)
+	print queue_size
 
 	heapq.heappush(server_load,(int(queue_size),conn))
 
@@ -149,7 +147,7 @@ def code_receive_from_client(conn):
 	submission_details.problem_statement = data
 	print submission_details.problem_statement
 
-	#thread.start_new_thread(send_to_judge,(conn,submission_details,))
+	thread.start_new_thread(send_to_judge,(conn,submission_details,))
 
 	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 
