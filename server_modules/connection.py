@@ -17,13 +17,18 @@ SEND_QUEUE_SIZE = str(5000)
 import heapq
 
 server_load = []
+client_braodcast = []
 
 
 
 #print heapq.heappop(server_load)
 
 
+<<<<<<< HEAD
+def create_connection(host='',port=4463):
+=======
 def create_connection(host='',port=4461):
+>>>>>>> eab0a8724bfbd9dbe0f58548a09ec0600d4e4a5b
 	sock = socket.socket()         # Create a socket object
 	#host = "" # Get local machine name
 	#port = 4460   # Reserve a port for your service.
@@ -97,19 +102,23 @@ def run_client(conn):
 
 
 def run_notification_client(conn):
-	conn.send(READY_TO_SEND)
-	connection_code = conn.recv(100)
+	data = []
+	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
+	print "ready to receive team_id"
+	team_id = conn.recv(100)
+	data['conn'] = conn
+	data['team_id'] = team_id
+	client_braodcast.append(data)
+	data = ''
+	
 
-	if connection_code == READY_TO_RECEIVE:
-		dummy_notification = "broadcast$$$this is broadcast data"
-		conn.send(dummy_notification)
+def broadcast_to_clients(msg):
+		broadcast_msg = "broadcast$$$"+str(msg)
+		conn.send(broadcast_msg)
 
 		connection_code = conn.recv(100)
 		if connection_code == DATA_RECEIVED_READY_FOR_NEXT:
 			print "notification send successfull"
-
-# def broadcast_to_clients(msg):
-	
 
 
 def run_submission_server(conn):

@@ -13,11 +13,19 @@ Rp5
 (dp6
 S'problem_code'
 p7
+<<<<<<< HEAD
+V123
+p8
+sS'problem_id'
+p9
+S'5'
+=======
 VMRX
 p8
 sS'problem_id'
 p9
 S'2'
+>>>>>>> eab0a8724bfbd9dbe0f58548a09ec0600d4e4a5b
 p10
 sS'problem_statement'
 p11
@@ -25,7 +33,11 @@ Vbroadcast$$$this is broadcast data\u000a\u000abroadcast$$$this is broadcast dat
 p12
 sS'problem_name'
 p13
+<<<<<<< HEAD
+Vnew
+=======
 VMrX nad his team
+>>>>>>> eab0a8724bfbd9dbe0f58548a09ec0600d4e4a5b
 p14
 sbag1
 (g2
