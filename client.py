@@ -15,8 +15,8 @@ import ttk
 sol_data = ''
 problem_selected = ''
 
-HOST = ''
-PORT = 4460
+HOST = '192.168.43.165'
+PORT = 4446
 
 
 
