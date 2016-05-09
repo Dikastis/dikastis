@@ -23,7 +23,7 @@ submission_queue = Queue()
 
 s = socket.socket()         # Create a socket object
 host = "172.16.86.159"      # Get local machine name
-port = 4466    # Reserve a port for your service.
+port = 4471s    # Reserve a port for your service.
 
 s.connect((host, port))
 
@@ -35,9 +35,9 @@ print connection_code
 if connection_code == "5000":
 	s.send(str(submission_queue.size()))
 
-	connection_code = s.recv(100)
-	print connection_code
-
+	#connection_code = s.recv(100)
+	#print connection_code
+	#connection_code = s.send(DATA_RECEIVED_READY_FOR_NEXT)
 	data = s.recv(100000)
 
 	f = open('submission_sub.b','wb')
@@ -48,7 +48,7 @@ if connection_code == "5000":
 
 	print data_recieved.display
 
-
+	
 
 
 

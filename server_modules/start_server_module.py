@@ -9,7 +9,7 @@ from connection import *
 def startServer(total_problems , q , s):
     
    
-    sock = create_connection("172.16.86.159",4466)
+    sock = create_connection("172.16.86.159",4471)
     thread.start_new_thread(start_handshaking,(sock,))
 
 

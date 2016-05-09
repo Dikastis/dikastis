@@ -120,6 +120,8 @@ def run_submission_server(conn):
 
 	heapq.heappush(server_load,(int(queue_size),conn))
 
+
+
 	
 
 def code_receive_from_client(conn):
@@ -135,7 +137,7 @@ def code_receive_from_client(conn):
 		#submission_details.language = data[1]
 		#submission_details.submission_number = data[1]
 		submission_details.problem_code = received_data
-
+		submission_details.conn = conn
 		#print submission_details.problem_code
 
 		total = conn.recv(100000)
@@ -177,7 +179,7 @@ def send_to_judge(conn,submission_details):
 			test = False
 
 		except:
-			if server_load.size()>0:
+			if len(server_load)>0:
 				q_size,conn_sub_server = heapq.heappop(server_load)
 				new_queue_size = q_size+1
 				heapq.heappush(server_load,(q_size,conn_sub_server))
