@@ -1,9 +1,12 @@
 from soldier import soldier
 
+submission_queue = []
+
 def start_judge(conn):
 	# ls = []        
 	# name = []
 	name = conn.recv(100)
+	
 	# print sol_recieved_for_problem
 	# ls=split(sol_recieved_for_problem,')')
 	# print ls

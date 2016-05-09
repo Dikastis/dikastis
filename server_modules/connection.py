@@ -2,6 +2,7 @@ import socket
 import thread
 from models import *
 import pickle 
+import heapq
 from problem_data import *
 from data_extractor import *
 
@@ -11,10 +12,16 @@ DATA_RECEIVED_READY_FOR_NEXT = str(3002)
 LOGIN_VERIFIED = str(200)
 LOGIN_NOT_VERIFED = str(201)
 
+#server_load = []
+
+
+
+
+
 def create_connection(host='',port=4444):
 	sock = socket.socket()         # Create a socket object
 	host = "" # Get local machine name
-	port = 4459   # Reserve a port for your service.
+	port = 4460   # Reserve a port for your service.
 	sock.bind((host, port))        # Bind to the port
 	print "socket binding complete"
 	sock.listen(5)  
@@ -86,6 +93,11 @@ def run_notification_client(conn):
 		connection_code = conn.recv(100)
 		if connection_code == DATA_RECEIVED_READY_FOR_NEXT:
 			print "notification send successfull"
+
+
+def run_submission_server(conn):
+
+
 
 
 sock = create_connection()

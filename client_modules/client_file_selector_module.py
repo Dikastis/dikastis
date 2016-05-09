@@ -4,7 +4,7 @@ import tkMessageBox
 def select(var,soc):
 	global selected_sol_file_path
 	problem_selected = var.get()
-	problem_selected = problem_selected.splitlines()[1][3:]
+	problem_selected = problem_selected.split(' -- ')[0]
 	# opening file selector window
 	file_path_string = tkFileDialog.askopenfilename(filetypes = (("C Files", "*.c")
                                                          ,("C++ Files", "*.cpp")))
