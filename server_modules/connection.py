@@ -24,7 +24,11 @@ client_braodcast = []
 #print heapq.heappop(server_load)
 
 
+<<<<<<< HEAD
 def create_connection(host='',port=4463):
+=======
+def create_connection(host='',port=4461):
+>>>>>>> eab0a8724bfbd9dbe0f58548a09ec0600d4e4a5b
 	sock = socket.socket()         # Create a socket object
 	#host = "" # Get local machine name
 	#port = 4460   # Reserve a port for your service.
@@ -141,7 +145,7 @@ def code_receive_from_client(conn):
 		#submission_details.submission_number = data[1]
 		submission_details.problem_code = received_data
 
-		print submission_details.problem_code
+		#print submission_details.problem_code
 
 		total = conn.recv(100000)
 		# data = conn.recv(1000)
@@ -151,7 +155,7 @@ def code_receive_from_client(conn):
 		# 	data = conn.recv(1000)
 
 		submission_details.problem_statement = total
-		print submission_details.problem_statement
+		#print submission_details.problem_statement
 
 
 		thread.start_new_thread(send_to_judge,(conn,submission_details,))
@@ -163,19 +167,31 @@ def code_receive_from_client(conn):
 def send_to_judge(conn,submission_details):
 
 	q_size,conn_sub_server = heapq.heappop(server_load)
-
+	print "hello"
 	#conn_sub_server.send("testing hello")
 	new_queue_size = q_size+1
 	heapq.heappush(server_load,(q_size,conn_sub_server))
 
-	pickle.dump( submission_details, open( "submission.b", "wb" ) )
-	f = open("submission.b","rb")
-	file_data = str(f.read())
-	f.close()
+	test = True
+	submission_details.display()
+
+	while test==True:
+		try:
+			pickle.dump( submission_details, open( "submission.b", "wb" ) )
+			f = open("submission.b","rb")
+			file_data = str(f.read())
+			f.close()
 	
-	conn.send(file_data)
+			conn_sub_server.send(file_data)
+			test = False
 
-
+		except:
+			if server_load.size()>0:
+				q_size,conn_sub_server = heapq.heappop(server_load)
+				new_queue_size = q_size+1
+				heapq.heappush(server_load,(q_size,conn_sub_server))
+			else:
+				print "no more server connected"
 
 
 
