@@ -12,9 +12,9 @@ root = tk.Tk()
 root.withdraw()
 
 
-HOST = "172.16.86.159"
+HOST = ''
 #HOST = ''
-PORT = 4463
+PORT = 1234
 
 def reciever(soc):
     #reciving 
@@ -52,5 +52,4 @@ if response == "3000": # 101 refers ok
 else:
     #handle error or show box
     pass
-
 

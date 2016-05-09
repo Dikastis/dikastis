@@ -22,8 +22,8 @@ submission_queue = Queue()
 
 
 s = socket.socket()         # Create a socket object
-host = "192.168.43.165"      # Get local machine name
-port = 4460         # Reserve a port for your service.
+host = "172.16.86.159"      # Get local machine name
+port = 4463        # Reserve a port for your service.
 
 s.connect((host, port))
 
@@ -36,6 +36,11 @@ if connection_code == "5000":
 
 	connection_code = s.recv(100)
 	print connection_code
+
+	data_recieved=pickle.load(open('submission_sub.b','rb'))
+
+	print data_recieved.d
+
 
 
 

@@ -55,3 +55,9 @@ class problem_submission_from_client(object):
 		self.problem_statement=""
 		self.conn = ""
 
+	def display():
+		print self.problem_code
+		print self.problem_language
+		print self.problem_statement
+		print self.conn
+

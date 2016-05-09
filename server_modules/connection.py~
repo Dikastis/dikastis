@@ -22,8 +22,7 @@ server_load = []
 
 #print heapq.heappop(server_load)
 
-
-def create_connection(host='',port=4460):
+def create_connection(host='',port=4455):
 	sock = socket.socket()         # Create a socket object
 	#host = "" # Get local machine name
 	#port = 4460   # Reserve a port for your service.
@@ -87,7 +86,10 @@ def run_client(conn):
 			conn.send(file_data)
 
 			conn.send(DATA_RECEIVED_READY_FOR_NEXT)
-			code_receive_from_client(conn)	
+			code_receive_from_client(conn)
+
+
+			
 
 	else:
 		print "login not verified"
@@ -114,61 +116,51 @@ def run_submission_server(conn):
 	conn.send(SEND_QUEUE_SIZE)
 
 	queue_size = conn.recv(100)
-	print queue_size
 
 	heapq.heappush(server_load,(int(queue_size),conn))
 
-	
+	conn.send(READY_TO_SEND)
+
+
+
 
 def code_receive_from_client(conn):
 
-	while 1:
-		received_data = conn.recv(1000)
-		conn.send(DATA_RECEIVED_READY_FOR_NEXT)
+	received_data = conn.recv(1024)
+	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 
-		#data = received_data.split(" ")
-		print "data going to receive"
-		submission_details = problem_submission_from_client(0);
-		#submission_details.problem_code = data[0]
-		#submission_details.language = data[1]
-		#submission_details.submission_number = data[1]
-		submission_details.problem_code = received_data
+	#data = received_data.split(" ")
+	print "data going to receive"
+	submission_details = problem_submission_from_client(0);
+	#submission_details.problem_code = data[0]
+	#submission_details.language = data[1]
+	#submission_details.submission_number = data[1]
+	submission_details.problem_code = received_data
 
-		print submission_details.problem_code
+	print submission_details.problem_code
 
-		total = conn.recv(100000)
-		# data = conn.recv(1000)
-		# while data != "":
-		# 	total = total  + data
-		# 	print total
-		# 	data = conn.recv(1000)
+	total = ""
+	data = conn.recv(1000)
+	while data != "":
+		total = total  + data
+		print total
+		data = conn.recv(1000)
 
-		submission_details.problem_statement = total
-		print submission_details.problem_statement
+	submission_details.problem_statement = data
+	print submission_details.problem_statement
 
+	#thread.start_new_thread(send_to_judge,(conn,submission_details,))
 
-		thread.start_new_thread(send_to_judge,(conn,submission_details,))
+	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 
-
-		conn.send(DATA_RECEIVED_READY_FOR_NEXT)
+	code_receive_from_client(conn)
 
 
 def send_to_judge(conn,submission_details):
 
 	q_size,conn_sub_server = heapq.heappop(server_load)
 
-	#conn_sub_server.send("testing hello")
-	new_queue_size = q_size+1
-	heapq.heappush(server_load,(q_size,conn_sub_server))
-
-	pickle.dump( submission_details, open( "submission.b", "wb" ) )
-	f = open("submission.b","rb")
-	file_data = str(f.read())
-	f.close()
-	
-	conn.send(file_data)
-
-
+	conn_sub_server.send("testing hello")
 
 
 
@@ -185,7 +177,6 @@ def start_handshaking(sock):
 #sock = create_connection()
 #while True:
 #	handshaking(sock)
-
 
 
 
