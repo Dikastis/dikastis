@@ -16,9 +16,9 @@ import os
 sol_data = ''
 problem_selected = ''
 
-HOST = ''
+HOST = "172.16.86.159"
 #Host = ''
-PORT = 11111
+PORT = 4463
 
 
 
