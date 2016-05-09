@@ -18,12 +18,7 @@ problem_selected = ''
 
 HOST = ''
 #Host = ''
-<<<<<<< HEAD
 PORT = 4464
-=======
-PORT = 4466
->>>>>>> eab0a8724bfbd9dbe0f58548a09ec0600d4e4a5b
-
 
 
 soc = socket.socket()
