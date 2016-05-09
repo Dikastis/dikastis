@@ -241,3 +241,4 @@ def get_connections_data(request):
 	cursor.close()
 	cnx.close()
 	return data
+

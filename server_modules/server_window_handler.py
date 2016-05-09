@@ -80,7 +80,7 @@ class MainWindow(tk.Frame):
             listbox.pack()
             listbox.insert(tk.END, "problems:")
 
-            check_problem_list(listbox)
+            # check_problem_list(listbox)
 
 
 
@@ -138,5 +138,5 @@ def addProblem(problem_name , problem_code, listbox):
         problem_code.delete('1.0', tk.END)
         
 
-def check_problem_list(listbox):
-    data = get_problem_list()
+# def check_problem_list(listbox):
+#     data = get_problem_list()
