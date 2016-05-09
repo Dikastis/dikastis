@@ -70,6 +70,10 @@ class MainWindow(tk.Frame):
             button.grid(row=3,column=1)
             button = tk.Button(self, text="Output file",command=lambda:file_loader("out"))
             button.grid(row=3,column=2)
+            button = tk.Button(self, text="Submission ",command=lambda:file_loader("out"))
+            button.grid(row=3,column=2)
+            
+
 
             button = tk.Button(self, text="Click To ADD", command=lambda: addProblem(problem_name , problem_code , listbox))
             button.grid(row=4,column=1)
@@ -77,7 +81,7 @@ class MainWindow(tk.Frame):
             button.grid(row=5,column=1)
 
             listbox = tk.Listbox(self,width=60)
-            listbox.grid(row=7,column=1)
+            listbox.grid(row=6,column=1)
             listbox.insert(tk.END, "problems:")
 
             # check_problem_list(listbox)
