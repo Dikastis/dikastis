@@ -14,7 +14,7 @@ root.withdraw()
 
 HOST = "172.16.86.159"
 #HOST = ''
-PORT = 4463
+PORT = 4466
 
 def reciever(soc):
     #reciving 
