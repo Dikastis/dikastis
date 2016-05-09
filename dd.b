@@ -1,0 +1,30 @@
+(lp0
+ccopy_reg
+_reconstructor
+p1
+(cserver_modules.models
+problems_data
+p2
+c__builtin__
+object
+p3
+Ntp4
+Rp5
+(dp6
+S'problem_code'
+p7
+Vq1
+p8
+sS'problem_id'
+p9
+S'1'
+p10
+sS'problem_statement'
+p11
+Vthis is a testing problem.Here you can test your problem
+p12
+sS'problem_name'
+p13
+Vtesting problem
+p14
+sba.

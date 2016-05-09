@@ -14,8 +14,7 @@ root.withdraw()
 
 HOST = '192.168.43.165'
 #HOST = ''
-PORT = 4450
-PORT_R = 4450
+PORT = 4455
 
 def reciever(soc):
     #reciving 
@@ -44,7 +43,7 @@ def reciever(soc):
 
 socRecveiver = socket.socket()
 print "thread working"
-socRecveiver.connect((HOST , PORT_R))
+socRecveiver.connect((HOST , PORT))
 socRecveiver.send('1001') #11 refers to client reciever type
 response = socRecveiver.recv(100)
 if response == "3000": # 101 refers ok

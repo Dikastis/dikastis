@@ -17,13 +17,9 @@ sol_data = ''
 problem_selected = ''
 
 HOST = '192.168.43.165'
-<<<<<<< HEAD
-PORT = 4446
-=======
-#Host = ''
-PORT = 4450
-PORT_R = 4450
->>>>>>> b5ac2673772e097426e4de2bd4296106ef8df154
+
+PORT = 4455
+# PORT_R = 4451
 
 
 
