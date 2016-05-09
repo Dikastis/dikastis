@@ -1,6 +1,7 @@
 import mysql.connector
 from models import *
 from datetime import *
+import copy
 
 config = {
   'user': 'root',
@@ -18,7 +19,7 @@ def add_client_details( _client_data):
 	add_client = ("INSERT INTO client_details "
                "(team_id, team_name, language, file_name,problem_code,submission_number) "
  				"VALUES (%s, %s, %s, %s, %s,%s)")
-	data_client = (_client_data.team_id, _client_data.team_name, _client_data.language, _client_data.filename, _client_data.problem_code,_client_data.submission_number)
+	data_client = (_client_data.team_id, _client_data.team_name, _client_data.language, _client_data.file_name, _client_data.problem_code,_client_data.submission_number)
     
 	cursor.execute(add_client, data_client)
 	cnx.commit()
@@ -93,4 +94,150 @@ def add_client_connections(_client_connections):
 # 	print request
 
 
-# get_client_data("name,fame,,")
+
+def get_auth(request):
+	cnx = mysql.connector.connect(**config)
+	cursor = cnx.cursor()
+	authenticate = ("SELECT team_id "
+				"FROM team_credentials "
+				"WHERE "+request)
+	print request
+	data_login = ()
+
+	cursor.execute(authenticate,data_login)
+	(number_of_rows,)=cursor.fetchone()
+	
+	cnx.commit()
+	cnx.close()
+
+	if number_of_rows > 0:
+		return 1
+
+
+def get_client_data(request):
+	cnx = mysql.connector.connect(**config)
+	cursor = cnx.cursor()
+	add_client = ("SELECT *"
+				"FROM client_details "
+				"WHERE "+request)
+	cursor.execute(add_client)
+	row = cursor.fetchall()
+	# data = [client_data for _ in range(10)]
+	data = []
+	i = 0
+	for i in range(len(row)):
+		new_data = client_data(i)
+		new_data.team_id = format(row[i][0])
+		new_data.team_name = format(row[i][1])
+		new_data.problem_code = format(row[i][2])
+		new_data.language = format(row[i][3])
+		new_data.time_stamp = format(row[i][4])
+		new_data.file_name = format(row[i][5])
+		new_data.submission_number = format(row[i][6])
+		data.append(new_data)
+
+	cnx.commit()
+	cursor.close()
+	cnx.close()
+	return data
+
+def get_server_data(request):
+	cnx = mysql.connector.connect(**config)
+	cursor = cnx.cursor()
+	add_client = ("SELECT *"
+				"FROM servers "
+				"WHERE "+request)
+	cursor.execute(add_client)
+	row = cursor.fetchall()
+	# data = [client_data for _ in range(10)]
+	data = []
+	i = 0
+	for i in range(len(row)):
+		new_data = calc_server_data(i)
+		new_data.ip = format(row[i][0])
+		new_data.port = format(row[i][1])
+		new_data.queue_size = format(row[i][2])
+		data.append(new_data)
+
+	cnx.commit()
+	cursor.close()
+	cnx.close()
+	return data
+
+def get_problem_data(request):
+	cnx = mysql.connector.connect(**config)
+	cursor = cnx.cursor()
+	add_client = ("SELECT *"
+				"FROM problems "
+				"WHERE "+request)
+	cursor.execute(add_client)
+	row = cursor.fetchall()
+	# data = [client_data for _ in range(10)]
+	data = []
+	i = 0
+	for i in range(len(row)):
+		new_data = problems_data(i)
+		new_data.problem_id = format(row[i][0])
+		new_data.problem_name = format(row[i][1])
+		new_data.problem_code = format(row[i][2])
+		new_data.problem_statement = format(row[i][3])
+		data.append(new_data)
+
+	cnx.commit()
+	cursor.close()
+	cnx.close()
+	return data
+
+def get_response_data(request):
+	cnx = mysql.connector.connect(**config)
+	cursor = cnx.cursor()
+	add_client = ("SELECT *"
+				"FROM response "
+				"WHERE "+request)
+	cursor.execute(add_client)
+	row = cursor.fetchall()
+	# data = [client_data for _ in range(10)]
+	data = []
+	i = 0
+	for i in range(len(row)):
+		new_data = response_data(i)
+		new_data.id = format(row[i][0])
+		new_data.language = format(row[i][1])
+		new_data.time_stamp = format(row[i][2])
+		new_data.problem_code = format(row[i][3])
+		new_data.submission_number = format(row[i][4])
+		new_data.exec_time = format(row[i][5])
+		new_data.result = format(row[i][6])
+		new_data.memory = format(row[i][7])
+		data.append(new_data)
+
+	cnx.commit()
+	cursor.close()
+	cnx.close()
+	return data
+
+
+def get_connections_data(request):
+	cnx = mysql.connector.connect(**config)
+	cursor = cnx.cursor()
+	add_client = ("SELECT *"
+				"FROM client_connections "
+				"WHERE "+request)
+	cursor.execute(add_client)
+	row = cursor.fetchall()
+	# data = [client_data for _ in range(10)]
+	data = []
+	i = 0
+	for i in range(len(row)):
+		new_data = client_connections_data(i)
+		new_data.ip = format(row[i][0])
+		new_data.port = format(row[i][1])
+		new_data.serial_key = format(row[i][2])
+		new_data.sender_port = format(row[i][3])
+		new_data.receiver_port = format(row[i][4])
+		data.append(new_data)
+
+	cnx.commit()
+	cursor.close()
+	cnx.close()
+	return data
