@@ -11,12 +11,16 @@ READY_TO_RECEIVE = str(3001)
 DATA_RECEIVED_READY_FOR_NEXT = str(3002)
 LOGIN_VERIFIED = str(200)
 LOGIN_NOT_VERIFED = str(201)
-
-#server_load = []
-
+SEND_QUEUE_SIZE = str(5000)
 
 
+import heapq
 
+server_load = []
+
+
+
+print heapq.heappop(server_load)
 
 def create_connection(host='',port=4444):
 	sock = socket.socket()         # Create a socket object
@@ -72,8 +76,12 @@ def run_client(conn):
 			f = open("problem_data.b","rb")
 			file_data = str(f.read())
 			f.close()
-			
 			conn.send(file_data)
+
+			code_receive_from_client(conn)
+			
+
+			
 
 	else:
 		print "login not verified"
@@ -95,7 +103,46 @@ def run_notification_client(conn):
 			print "notification send successfull"
 
 
+
 def run_submission_server(conn):
+	conn.send(SEND_QUEUE_SIZE)
+
+	queue_size = conn.recv(100)
+
+	heapq.heappush(server_load,(int(queue_size),conn))
+
+	conn.send(READY_TO_SEND)
+
+
+
+
+def code_receive_from_client(conn):
+
+	received_data = conn.recv(1024)
+	data = []
+	data = received_data.split(" ")
+
+	submission_details = problem_submission_from_client();
+	submission_details.problem_code = submission_details[0]
+	submission_details.language = submission_details[1]
+	submission_details.submission_number = submission_details[2]
+
+
+	total = ""
+	data = conn.recv(1000)
+	while data != "":
+		total = total  + data
+		data = s.recv(1000)
+
+	submission_details.problem_statement = data
+
+	thread.start_new_thread(send_to_judge,(con,))
+
+	conn.send(DATA_RECEIVED_READY_FOR_NEXT)
+
+
+
+
 
 
 

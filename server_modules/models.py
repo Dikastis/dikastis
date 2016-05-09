@@ -46,3 +46,12 @@ class client_connections_data(object):
 		self.serial_key = ""
 		self.sender_port = ""
 		self.receiver_port = ""
+
+
+class problem_submission_from_client(object):
+	def __init__(self,object):
+		self.problem_code= ""
+		self.problem_language=""
+		self.problem_statement=""
+		slef.conn = ""
+
