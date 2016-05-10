@@ -13,7 +13,7 @@ Rp5
 (dp6
 S'problem_code'
 p7
-V123
+Vcaf
 p8
 sS'problem_id'
 p9
@@ -21,11 +21,11 @@ S'5'
 p10
 sS'problem_statement'
 p11
-Vbroadcast$$$this is broadcast data\u000a\u000abroadcast$$$this is broadcast data\u000a\u000abroadcast$$$this is broadcast data\u000a\u000abroadcast$$$this is broadcast data\u000a\u000abroadcast$$$this is broadcast data\u000a\u000abroadcast$$$this is broadcast data\u000a\u000abroadcast$$$this is broadcast data\u000a\u000abroadcast$$$this is broadcast data\u000a\u000a
+V\u000a\u000abroadcast$$$geee\u000aresult$$$AC\u000a\u000a\u000a
 p12
 sS'problem_name'
 p13
-Vnew
+Vchru and frnd
 p14
 sbag1
 (g2
@@ -34,15 +34,15 @@ Ntp15
 Rp16
 (dp17
 g7
-Vtestyy
+Vdbp
 p18
 sg9
 S'6'
 p19
 sg11
-V1000
+V\u000a\u000abroadcast$$$geee\u000aresult$$$AC\u000a\u000a\u000a
 p20
 sg13
-Vpiyushtest
+Vdusri prob
 p21
 sba.

@@ -17,7 +17,7 @@ sol_data = ''
 problem_selected = ''
 
 HOST = ''
-PORT = 4471
+PORT = 4475
 
 soc = socket.socket()
 soc.connect((HOST , PORT))

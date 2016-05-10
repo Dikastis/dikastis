@@ -23,6 +23,24 @@ client_broadcast = {}
 team_count = 0
 
 
+def back():
+    path=os.getcwd()
+    print path
+    s=path.split('\\')
+    length=len(s)
+    x=0
+    
+    while x<(length-1):
+        if x==0:
+            back_path=s[x]+"\\"
+        else:
+            back_path=back_path+s[x]+"\\"
+        x+=1
+
+    os.chdir(back_path)
+
+
+
 #print heapq.heappop(server_load)
 
 
@@ -135,6 +153,48 @@ def run_submission_server(conn):
 
 	heapq.heappush(server_load,(int(queue_size),conn))
 
+	problem_detail_list = get_problem_data("1")
+
+	conn.send(str(len(problem_detail_list)))
+	connection_code=conn.recv(100)
+
+	#back()
+	#s = os.getcwd() + "submissions/"
+
+	if connection_code=="3002":
+		for i in problem_detail_list:
+			print i.problem_code
+			problem_code = "caf";
+			file_name_in = "/home/shivangi/Desktop/2/dikastis/submissions/caf.in"
+			#file_name_in = i.problem_code+".in"
+			#file_name_out = i.problem_code + ".out"
+			file_name_in = "/home/shivangi/Desktop/2/dikastis/submissions/caf.out"
+
+			conn.send(i.problem_code)
+			connection_code=conn.recv(100)
+			print connection_code
+
+			if connection_code=="3002":
+				f = open(file_name_in,"r")
+				in_data = f.read()
+				print in_data
+				f.close
+				conn.send(in_data)
+
+			connection_code = conn.recv(100)
+			print connection_code
+
+			if connection_code=="3002":
+				f = open(file_name_out,"r")
+				out_data = f.read()
+				print out_data
+				f.close
+				conn.send(out_data)
+
+			connection_code = conn.recv(100)
+			print connection_code
+
+		print "out of loop"
 
 
 	
@@ -152,7 +212,7 @@ def code_receive_from_client(conn):
 		#submission_details.language = data[1]
 		#submission_details.submission_number = data[1]
 		submission_details.problem_code = received_data
-		submission_details.conn = conn
+		#submission_details.conn = conn
 		#print submission_details.problem_code
 
 		total = conn.recv(100000)
@@ -194,6 +254,8 @@ def send_to_judge(conn,submission_details):
 			test = False
 
 		except:
+			print str(e)
+			test = False
 			if len(server_load)>0:
 				q_size,conn_sub_server = heapq.heappop(server_load)
 				new_queue_size = q_size+1
@@ -201,8 +263,7 @@ def send_to_judge(conn,submission_details):
 			else:
 				print "no more server connected"
 
-
-
+	print "data sent"
 
 
 def start_handshaking(sock):

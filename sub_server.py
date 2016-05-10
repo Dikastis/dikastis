@@ -22,8 +22,8 @@ submission_queue = Queue()
 
 
 s = socket.socket()         # Create a socket object
-host = "172.16.86.159"      # Get local machine name
-port = 4471   # Reserve a port for your service.
+host = ''      # Get local machine name
+port = 4475   # Reserve a port for your service.
 
 s.connect((host, port))
 
@@ -35,18 +35,58 @@ print connection_code
 if connection_code == "5000":
     s.send(str(submission_queue.size()))
 
-    #connection_code = s.recv(100)
-    #print connection_code
-    #connection_code = s.send(DATA_RECEIVED_READY_FOR_NEXT)
+    print submission_queue.size()
+
+    number_of_problems = int(s.recv(100))
+
+    s.send(DATA_RECEIVED_READY_FOR_NEXT)
+    print number_of_problems
+
+    for i in range(0,number_of_problems):
+        problem_code = s.recv(100)
+        s.send(DATA_RECEIVED_READY_FOR_NEXT)
+        print problem_code
+
+        input_file_name = problem_code + ".in"
+        file = open(input_file_name,"w")
+        input_data = s.recv(10000)
+        file.write(input_data)
+        print input_data
+
+        s.send(DATA_RECEIVED_READY_FOR_NEXT)
+
+        output_file = problem_code + ".out"
+        file = open(output_file,"w")
+        output_data = s.recv(10000)
+        file.write(output_data)
+        print output_data
+        s.send(DATA_RECEIVED_READY_FOR_NEXT)
+
+        print "obj num ",i
+    #########################################
     data = s.recv(100000)
 
     f = open('submission_sub.b','wb')
     f.write(data)
     f.close()
-    
+    print "data data_received"
     data_recieved=pickle.load(open('submission_sub.b','rb'))
 
     data_recieved.display()
+
+    file_name = data_recieved.conn + data_recieved.problem_code + ".cpp"
+
+    f = open(file_name,'w')
+    f.write(data_recieved.problem_statement)
+    f.close()
+
+    a=soldier.run("python checker.py "+"test "+name)
+
+
+
+
+
+
 
 
 
