@@ -90,7 +90,6 @@ class MainWindow(tk.Frame):
             global message
             message = msg.get("1.0",tk.END)[:-1]
             broadcast_to_clients(message)
-            #send_result("1001","AC")
 
         def broadcast_msg(self):
             labelText = tk.StringVar()
