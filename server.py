@@ -11,7 +11,6 @@ except ImportError:
 if __name__ == "__main__":
     root = tk.Tk()
     main = MainWindow(root)
-    # main.pack(side="top", fill="both", expand=True)
     main.grid(row=0)
     root.mainloop()
 

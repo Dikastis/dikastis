@@ -8,6 +8,7 @@ import tkMessageBox
 import ttk
 import tkFileDialog
 from server_modules.data_extractor import *
+from server_modules.connection import broadcast_to_clients,send_result
 
 try:
     # Python2
@@ -22,31 +23,25 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 input_file_path_string = ''
 output_file_path_string = ''
 statement_file_path = ''
-class MainWindow(tk.Frame):
-  
 
+class MainWindow(tk.Frame):
     def __init__(self, *args, **kwargs):
         self.s = s
+        def focus_next_window(event):
+            event.widget.tk_focusNext().focus()
+            return("break")
+
+        def file_loader(type):
+            global input_file_path_string, output_file_path_string,statement_file_path
+            if type == "in":
+                input_file_path_string = tkFileDialog.askopenfilename(filetypes = (("Input Files", "*.in"),("txt Files", "*.txt")))
+            elif type == "out":
+                output_file_path_string = tkFileDialog.askopenfilename(filetypes = (("Output Files", "*.out"),("txt Files", "*.txt")))
+            elif type == "statement":
+                statement_file_path = tkFileDialog.askopenfilename(filetypes = (("Statement File", "*.txt"),("All Files", "*.*")))
 
         def problem_window(self):
             global q, s
-            def focus_next_window(event):
-                event.widget.tk_focusNext().focus()
-                return("break")
-
-            def file_loader(type):
-                global input_file_path_string, output_file_path_string,statement_file_path
-
-                if type == "in":
-                    input_file_path_string = tkFileDialog.askopenfilename(filetypes = (("Input Files", "*.in")
-                                                                                        ,("txt Files", "*.txt")))
-                elif type == "out":
-                    output_file_path_string = tkFileDialog.askopenfilename(filetypes = (("Output Files", "*.out")
-                                                                                        ,("txt Files", "*.txt")))
-                elif type == "statement":
-                    statement_file_path = tkFileDialog.askopenfilename(filetypes = (("Statement File", "*.txt")
-                                                                                    ,("All Files", "*.*")))
-
             labelText = tk.StringVar()
             labelText.set('Enter Problem name')
             label1 = tk.Label(self, textvariable=labelText, height=1)
@@ -75,8 +70,6 @@ class MainWindow(tk.Frame):
             button.grid(row=3,column=2)
             button = tk.Button(self, text="Problem Statement",command=lambda:file_loader("statement"))
             button.grid(row=4,column=1)
-            
-
 
             button = tk.Button(self, text="Click To ADD", command=lambda: addProblem(problem_name , problem_code , listbox))
             button.grid(row=5,column=1)
@@ -93,6 +86,27 @@ class MainWindow(tk.Frame):
                 item = 'name: ' + data[i].problem_name + ' | code: ' + data[i].problem_code + ' | input_file: ' + str(data[i].problem_name+data[i].problem_code) + ".in" + ' | out_file:' + str(data[i].problem_name+data[i].problem_code) + ".out"
                 listbox.insert(tk.END,item)
 
+        def load_msg(msg):
+            global message
+            message = msg.get("1.0",tk.END)[:-1]
+            broadcast_to_clients(message)
+            send_result("1001","AC")
+
+        def broadcast_msg(self):
+            labelText = tk.StringVar()
+            labelText.set('Enter Message')
+            label1 = tk.Label(self, textvariable=labelText, height=1)
+            label1.grid(row=1,column=0)
+
+            msg = tk.Text(self, height=5, width=50)
+            msg.grid(row=1,column=1)
+            msg.insert(tk.END, "")
+
+            msg.bind("<Tab>", focus_next_window)
+
+            button = tk.Button(self,text="Broadcast",command=lambda:load_msg(msg))
+            button.grid(row=6,column=1)
+            
 
         tk.Frame.__init__(self, *args, **kwargs)
         tk.Frame(self,width=600,height=400)
@@ -111,6 +125,7 @@ class MainWindow(tk.Frame):
         subframe21 = tk.Frame(self,width=280,height=400)
         subframe21.grid(row=0,column=2)
         notebook.add(subframe21, text="Broadcast", state="normal")
+        broadcast_msg(subframe21)
 
 
 def addProblem(problem_name , problem_code, listbox):
