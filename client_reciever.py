@@ -1,5 +1,6 @@
 import socket
 import tkMessageBox
+from constants.network_constants import *
 
 try:
     # Python2
@@ -12,8 +13,8 @@ root = tk.Tk()
 root.withdraw()
 
 
-HOST = ''
-PORT = 4475
+# HOST = '192.168.43.165'
+# PORT = 4482
 
 def reciever(soc):
 

@@ -20,6 +20,14 @@ def select(var,soc):
 	#sending problem name
 	soc.send(problem_selected)
 	response = soc.recv(100)
+
+	f = open('login_id.txt','r')
+	taem_id = f.read()
+	f.close()
+
+	soc.send(taem_id)
+	response = soc.recv(100)
+
 	print response
 	soc.send(data)
 
@@ -28,6 +36,5 @@ def select(var,soc):
 
 
 	# result = soc.recv(100)
-	# tkMessageBox.showinfo('report', 'submission result : ' + result)
+	# tkMessageBox.showinfo('report', 'submission result : ' + response)
 	# print result
-

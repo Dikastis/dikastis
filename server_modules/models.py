@@ -53,6 +53,7 @@ class problem_submission_from_client(object):
 		self.problem_code= ""
 		self.problem_language=""
 		self.problem_statement=""
+		self.team_id=""
 		self.conn = ""
 
 	def display(self):

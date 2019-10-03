@@ -7,5 +7,6 @@ from data_extractor import *
 # data.queue_size = "3"
 
 # add_servers(data)
-data = get_server_data("1")
-print data[0].port
+# data = get_server_data("1")
+# print data[0].port
+

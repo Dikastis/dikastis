@@ -5,9 +5,10 @@ from constants.network_constants import *
 from server_modules.client_modules_for_server import start_judge
 import tkMessageBox
 from connection import *
+from constants.network_constants import *
 
 def startServer(total_problems , q , s):
-    sock = create_connection("",4475)
+    sock = create_connection(HOST,PORT)
     thread.start_new_thread(start_handshaking,(sock,))
 
 

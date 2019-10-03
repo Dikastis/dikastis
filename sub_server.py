@@ -6,7 +6,11 @@ import heapq
 from server_modules.problem_data import *
 from server_modules.data_extractor import *
 from server_modules.queue_file import *
+import soldier
+from constants.network_constants import *
+from constants.project_constants import *
 
+ 
 READY_TO_SEND = str(3000)
 READY_TO_RECEIVE = str(3001)
 DATA_RECEIVED_READY_FOR_NEXT = str(3002)
@@ -18,14 +22,40 @@ I_M_SERVER = str(2000)
 
 submission_queue = Queue()
 
+def get_data_from_main(s):    
+    data = s.recv(100000)
+
+    f = open('submission_sub.b','wb')
+    f.write(data)
+    f.close()
+    print "data data_received"
+    data_recieved=pickle.load(open('submission_sub.b','rb'))
+
+    data_recieved.display()
+
+    file_name = data_recieved.problem_code 
+
+    f = open(project_path +"output/" + file_name + ".cpp",'w')
+    f.write(data_recieved.problem_statement)
+    f.close()
+
+    submission_queue.enqueue(data_recieved)
+
+    a=soldier.run("python checker.py "+file_name + " " + file_name )
+
+    print "returned to sub server"
+    file = open("log.json","r")
+    data = file.read()
+    file.close()
+    s.send(data)
 
 
 
 s = socket.socket()         # Create a socket object
-host = ''      # Get local machine name
-port = 4475   # Reserve a port for your service.
+# host = '192.168.43.165'      # Get local machine name
+# port = 4482   # Reserve a port for your service.
 
-s.connect((host, port))
+s.connect((HOST, PORT))
 
 s.send(I_M_SERVER)
 
@@ -47,40 +77,31 @@ if connection_code == "5000":
         s.send(DATA_RECEIVED_READY_FOR_NEXT)
         print problem_code
 
-        input_file_name = problem_code + ".in"
-        file = open(input_file_name,"w")
+        # input_file_name = project_path +"output/" + problem_code + ".in"
+
+        # file = open(input_file_name,"w")
         input_data = s.recv(10000)
-        file.write(input_data)
-        print input_data
+        # file.write(input_data)
+        # print input_data
 
         s.send(DATA_RECEIVED_READY_FOR_NEXT)
 
-        output_file = problem_code + ".out"
-        file = open(output_file,"w")
+        # output_file = project_path +"output/" + problem_code + ".out"
+        # file = open(output_file,"w")
         output_data = s.recv(10000)
-        file.write(output_data)
-        print output_data
+        # file.write(output_data)
+        # print output_data
         s.send(DATA_RECEIVED_READY_FOR_NEXT)
 
         print "obj num ",i
+        
     #########################################
-    data = s.recv(100000)
+while True:
+    get_data_from_main(s)
 
-    f = open('submission_sub.b','wb')
-    f.write(data)
-    f.close()
-    print "data data_received"
-    data_recieved=pickle.load(open('submission_sub.b','rb'))
 
-    data_recieved.display()
 
-    file_name = data_recieved.conn + data_recieved.problem_code + ".cpp"
 
-    f = open(file_name,'w')
-    f.write(data_recieved.problem_statement)
-    f.close()
-
-    a=soldier.run("python checker.py "+"test "+name)
 
 
 

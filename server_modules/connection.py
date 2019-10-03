@@ -5,6 +5,7 @@ import pickle
 import heapq
 from problem_data import *
 from data_extractor import *
+from constants.project_constants import * 
 
 READY_TO_SEND = str(3000)
 READY_TO_RECEIVE = str(3001)
@@ -21,24 +22,6 @@ client_broadcast = {}
 # client_braodcast = [dict() for _ in range(10000)]
 # client_braodcast = {}
 team_count = 0
-
-
-def back():
-    path=os.getcwd()
-    print path
-    s=path.split('\\')
-    length=len(s)
-    x=0
-    
-    while x<(length-1):
-        if x==0:
-            back_path=s[x]+"\\"
-        else:
-            back_path=back_path+s[x]+"\\"
-        x+=1
-
-    os.chdir(back_path)
-
 
 
 #print heapq.heappop(server_load)
@@ -158,17 +141,15 @@ def run_submission_server(conn):
 	conn.send(str(len(problem_detail_list)))
 	connection_code=conn.recv(100)
 
-	#back()
-	#s = os.getcwd() + "submissions/"
-
+	
+	prefix = project_path + "problems/"
 	if connection_code=="3002":
 		for i in problem_detail_list:
 			print i.problem_code
-			problem_code = "caf";
-			file_name_in = "/home/shivangi/Desktop/2/dikastis/submissions/caf.in"
-			#file_name_in = i.problem_code+".in"
-			#file_name_out = i.problem_code + ".out"
-			file_name_in = "/home/shivangi/Desktop/2/dikastis/submissions/caf.out"
+	
+			file_name_in = prefix + i.problem_code + ".in"
+			file_name_out = prefix + i.problem_code + ".out"
+			
 
 			conn.send(i.problem_code)
 			connection_code=conn.recv(100)
@@ -178,7 +159,7 @@ def run_submission_server(conn):
 				f = open(file_name_in,"r")
 				in_data = f.read()
 				print in_data
-				f.close
+				f.close()
 				conn.send(in_data)
 
 			connection_code = conn.recv(100)
@@ -188,7 +169,7 @@ def run_submission_server(conn):
 				f = open(file_name_out,"r")
 				out_data = f.read()
 				print out_data
-				f.close
+				f.close()
 				conn.send(out_data)
 
 			connection_code = conn.recv(100)
@@ -205,6 +186,8 @@ def code_receive_from_client(conn):
 		received_data = conn.recv(1000)
 		conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 
+		team_id = conn.recv(100)
+		conn.send(DATA_RECEIVED_READY_FOR_NEXT)
 		#data = received_data.split(" ")
 		print "data going to receive"
 		submission_details = problem_submission_from_client(0);
@@ -212,6 +195,7 @@ def code_receive_from_client(conn):
 		#submission_details.language = data[1]
 		#submission_details.submission_number = data[1]
 		submission_details.problem_code = received_data
+		submission_details.team_id = team_id
 		#submission_details.conn = conn
 		#print submission_details.problem_code
 
@@ -264,6 +248,13 @@ def send_to_judge(conn,submission_details):
 				print "no more server connected"
 
 	print "data sent"
+
+	result = conn_sub_server.recv(1000)
+	print result
+
+	send_result(submission_details.team_id,result)
+	#send_to_judge(conn,submission_details)
+	#code_receive_from_client(conn)
 
 
 def start_handshaking(sock):

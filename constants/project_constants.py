@@ -1,0 +1,1 @@
+project_path = '/root/Dropbox/minor/dikastis/'

@@ -14,7 +14,7 @@ def create_database(cursor):
 
 config = {
   'user': 'root',
-  'password': 'password',
+  'password': 'piyush@123',
   'host': '127.0.0.1',
   'database': 'dikastis_db',
   'raise_on_warnings': True,
